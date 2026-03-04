@@ -1,0 +1,103 @@
+import React, { useState } from 'react';
+import { 
+  LayoutGrid, 
+  FileText, 
+  Users, 
+  ShoppingCart, 
+  BarChart2, 
+  FileBarChart, 
+  MessageSquare,
+  FilePlus,
+  Eye
+} from 'lucide-react';
+import { useNavigate } from "react-router-dom";
+
+const SidebarItem = ({ icon: Icon, label, active, badge, onClick }) => (
+  <div 
+    onClick={onClick}
+    className={`relative flex flex-col items-center justify-center py-5 cursor-pointer transition-colors w-full
+      ${active ? 'bg-[#333333] text-white border-r-[3px] border-red-500' : 'text-gray-400 hover:text-white'}`}
+  >
+    <Icon size={22} strokeWidth={1.5} />
+    <span className="text-[10px] mt-2 font-medium text-center px-1 leading-tight">
+      {label}
+    </span>
+
+    {badge && (
+      <div className="absolute top-5 right-6 w-2 h-2 bg-red-500 rounded-full border border-[#1e1e1e]" />
+    )}
+  </div>
+);
+
+export default function Sidebar() {
+  const [openMenu, setOpenMenu] = useState(null); 
+ 
+  const navigate = useNavigate();    
+  const menuItems = [
+    { icon: LayoutGrid, label: 'Requisition' },
+    { icon: FileText, label: 'RFX', active: true },
+    { icon: Users, label: 'Supplier Responses' },
+    { icon: ShoppingCart, label: 'Purchase Orders' },
+    { icon: BarChart2, label: 'Analytics' },
+    { icon: FileBarChart, label: 'Reports' },
+    { icon: MessageSquare, label: 'Messages', badge: true },
+  ];
+
+  const dropdownItems = [
+    { label: 'Create', icon: FilePlus },
+    { label: 'View', icon: Eye }
+  ];
+
+  return (
+    <aside className="relative w-[85px] bg-[#1e1e1e] h-screen flex flex-col sticky top-0 py-4">
+      <nav className="flex flex-col items-center w-full">
+
+        {menuItems.map((item, idx) => {
+          const hasDropdown = item.label === "Requisition" || item.label === "RFX";
+          const isOpen = openMenu === item.label;
+
+          return (
+            <div key={idx} className="relative w-full">
+              
+ <SidebarItem
+  {...item}
+  onClick={() => {
+    if (item.label === "Supplier Responses") {
+      navigate("/supplier-responses");
+    } 
+    else if (item.label === "Analytics") {
+      navigate("/Analytics-page");    
+    }
+    else if (hasDropdown) {
+      setOpenMenu(isOpen ? null : item.label);
+    }
+  }}
+/>
+
+              {/* Dropdown */}
+              {hasDropdown && isOpen && (
+                <div className="absolute left-[85px] top-0 w-40 bg-white rounded-lg shadow-lg py-2 z-50 transition-all duration-200">
+                  
+                  {dropdownItems.map((dropItem, i) => {
+                    const DropIcon = dropItem.icon;
+                    return (
+                      <div
+                        key={i}
+                        className="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 cursor-pointer text-gray-700"
+                      >
+                        <DropIcon size={16} />
+                        <span className="text-sm">{dropItem.label}</span>
+                      </div>
+                    );
+                  })}
+
+                </div>
+              )}
+            </div>
+          );
+        })}
+
+      </nav>
+    </aside>
+  );
+}
