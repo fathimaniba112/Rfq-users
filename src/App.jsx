@@ -16,7 +16,8 @@ function App() {
         <Sidebar />
 
         {/* Main Content Area */}
-      <div className="flex-1 flex flex-col min-w-0 ml-[85px]">
+      <div className="flex-1 flex flex-col min-w-0 ml-[85px] h-screen">
+          {/* Header - Fixed at top, no scroll */}
           <Header />
           {/* Scrollable Body */}
           <div className="flex-1 overflow-y-auto">

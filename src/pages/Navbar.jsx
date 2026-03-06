@@ -13,7 +13,7 @@ import {
 
 const Header = () => {
   return (
-    <header className="flex h-16 items-center border-b border-gray-200 bg-[#F9F7F2] px-4 font-sans text-gray-700">
+    <header className="flex h-16 items-center border-b border-gray-200 bg-[#F9F7F2] px-4 font-sans text-gray-700 flex-shrink-0">
       
       {/* 1. Logo Section */}
       <div className="mr-6 text-2xl font-bold tracking-tight text-[#2D6A4F]">
