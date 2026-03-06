@@ -8,7 +8,8 @@ import {
   FileBarChart, 
   MessageSquare,
   FilePlus,
-  Eye
+  Eye,
+  Home
 } from 'lucide-react';
 import { Gavel, CheckSquare } from "lucide-react";
 import { useNavigate } from "react-router-dom";
@@ -35,6 +36,7 @@ export default function Sidebar() {
  
   const navigate = useNavigate();    
 const menuItems = [
+  { icon: Home, label: 'Home', onClick: () => navigate("/dashboard") },
   { icon: LayoutGrid, label: 'Purchase Request' },
   { icon: FileText, label: ' RFQ/RFP', active: true },
  
@@ -60,7 +62,7 @@ const menuItems = [
       <nav className="flex flex-col items-center w-full">
 
         {menuItems.map((item, idx) => {
-          const hasDropdown = item.label === "Requisition" || item.label === "RFX";
+          const hasDropdown = item.label === "Purchase Request" || item.label === " RFQ/RFP" || item.label === "Purchase Orders";
           const isOpen = openMenu === item.label;
 
           return (
@@ -72,8 +74,14 @@ const menuItems = [
     if (item.label === "Supplier Responses") {
       navigate("/supplier-responses");
     } 
+     else if (item.label === "Home") {
+      navigate("/dashboard");    
+    }
     else if (item.label === "Analytics") {
       navigate("/Analytics-page");    
+    }
+    else if (item.label === "Status") {
+      navigate("/supplier-responses");
     }
     else if (hasDropdown) {
       setOpenMenu(isOpen ? null : item.label);

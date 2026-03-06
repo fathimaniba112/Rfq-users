@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 
 import Sidebar from "./pages/sidebar";
 import Dashboard from "./pages/Dashboard";
@@ -22,7 +22,8 @@ function App() {
           <div className="flex-1 overflow-y-auto">
 <BuyerBanner/>
             <Routes>
-              <Route path="/" element={<Dashboard />} />
+              <Route path="/" element={<Navigate to="/dashboard" replace />} />
+              <Route path="/dashboard" element={<Dashboard />} />
               <Route
                 path="/supplier-responses"
                 element={<ViewSupplierResponses />}
