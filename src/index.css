@@ -1,2 +1,12 @@
 @import "tailwindcss";
+
+/* Hide scrollbar for sidebar but keep it scrollable */
+.sidebar-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.sidebar-scroll {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
  

@@ -56,7 +56,7 @@ const menuItems = [
 
   return (
     
-  <aside className="fixed left-0 top-0 w-[85px] bg-[#1e1e1e] h-screen flex flex-col py-4 overflow-y-auto">
+<aside className="sidebar-scroll fixed left-0 top-0 w-[85px] bg-[#1e1e1e] h-screen flex flex-col py-4 overflow-y-auto">
       <nav className="flex flex-col items-center w-full">
 
         {menuItems.map((item, idx) => {
