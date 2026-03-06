@@ -1,23 +1,13 @@
 @import "tailwindcss";
 
-/* Hide scrollbar for sidebar but keep it scrollable - Chrome, Safari and Opera */
-.sidebar-scroll::-webkit-scrollbar {
-  display: none;
-}
-
-/* Hide scrollbar for IE, Edge and Firefox */
-.sidebar-scroll {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
-}
-
-/* Also hide for the nav element in sidebar */
-nav::-webkit-scrollbar {
-  display: none;
-}
-
-nav {
-  -ms-overflow-style: none;
+/* Reset any default browser scrollbar behavior */
+* {
   scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+/* Hide scrollbars globally but keep functionality */
+::-webkit-scrollbar {
+  display: none;
 }
 

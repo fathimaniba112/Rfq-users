@@ -56,8 +56,8 @@ const menuItems = [
 
   return (
     
-<aside className="fixed left-0 top-0 w-[85px] h-screen bg-[#1e1e1e] flex flex-col overflow-hidden">
-      <nav className="flex flex-col items-center w-full h-full overflow-y-auto overflow-x-hidden" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+    <aside className="fixed left-0 top-0 w-[85px] h-screen bg-[#1e1e1e] flex flex-col overflow-hidden">
+      <nav className="flex flex-col items-center w-full h-full overflow-hidden">
 
         {menuItems.map((item, idx) => {
           const hasDropdown = item.label === "Purchase Request" || item.label === "RFQ/RFP" || item.label === "Purchase Orders";
