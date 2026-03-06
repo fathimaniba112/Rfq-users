@@ -10,13 +10,13 @@ import SpendDashboard from "./pages/Analytics-page";
 function App() {
   return (
     <Router>
-      <div className="flex min-h-screen bg-[#f8f9fa] font-sans text-gray-900">
+      <div className="flex h-screen overflow-hidden bg-[#f8f9fa] font-sans text-gray-900">
         
         {/* Fixed Sidebar */}
         <Sidebar />
 
         {/* Main Content Area */}
-        <div className="flex-1 flex flex-col min-w-0">
+      <div className="flex-1 flex flex-col min-w-0 ml-[85px]">
           <Header />
 
           {/* Scrollable Body */}

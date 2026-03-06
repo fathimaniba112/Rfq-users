@@ -10,6 +10,7 @@ import {
   FilePlus,
   Eye
 } from 'lucide-react';
+import { Gavel, CheckSquare } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 const SidebarItem = ({ icon: Icon, label, active, badge, onClick }) => (
@@ -33,15 +34,20 @@ export default function Sidebar() {
   const [openMenu, setOpenMenu] = useState(null); 
  
   const navigate = useNavigate();    
-  const menuItems = [
-    { icon: LayoutGrid, label: 'Requisition' },
-    { icon: FileText, label: 'RFX', active: true },
-    { icon: Users, label: 'Supplier Responses' },
-    { icon: ShoppingCart, label: 'Purchase Orders' },
-    { icon: BarChart2, label: 'Analytics' },
-    { icon: FileBarChart, label: 'Reports' },
-    { icon: MessageSquare, label: 'Messages', badge: true },
-  ];
+const menuItems = [
+  { icon: LayoutGrid, label: 'Purchase Request' },
+  { icon: FileText, label: ' RFQ/RFP', active: true },
+ 
+  { icon: Users, label: 'Status' },
+{ icon: Gavel, label: 'Reverse Auction' },
+{ icon: CheckSquare, label: 'Internal Approval' },
+    
+
+  { icon: ShoppingCart, label: 'Purchase Orders' },
+  { icon: BarChart2, label: 'Analytics' },
+  { icon: FileBarChart, label: 'Reports' },
+  { icon: MessageSquare, label: 'Messages', badge: true },
+];
 
   const dropdownItems = [
     { label: 'Create', icon: FilePlus },
@@ -49,7 +55,8 @@ export default function Sidebar() {
   ];
 
   return (
-    <aside className="relative w-[85px] bg-[#1e1e1e] h-screen flex flex-col sticky top-0 py-4">
+    
+  <aside className="fixed left-0 top-0 w-[85px] bg-[#1e1e1e] h-screen flex flex-col py-4 overflow-y-auto">
       <nav className="flex flex-col items-center w-full">
 
         {menuItems.map((item, idx) => {
