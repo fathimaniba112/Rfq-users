@@ -16,7 +16,7 @@ import { useNavigate } from "react-router-dom";
 const SidebarItem = ({ icon: Icon, label, active, badge, onClick }) => (
   <div 
     onClick={onClick}
-    className={`relative flex flex-col items-center justify-center py-2 cursor-pointer transition-colors w-full
+    className={`relative flex flex-col items-center justify-center py-3 cursor-pointer transition-colors w-full
       ${active ? 'bg-[#333333] text-white border-r-[3px] border-red-500' : 'text-gray-400 hover:text-white'}`}
   >
     <Icon size={20} strokeWidth={1.5} />
@@ -56,7 +56,7 @@ const menuItems = [
 
   return (
     
-<aside className="fixed left-0 top-0 w-[85px] bg-[#1e1e1e] h-screen flex flex-col py-1">
+<aside className="fixed left-0 top-0 w-[85px] bg-[#1e1e1e] h-screen flex flex-col py-3">
       <nav className="flex flex-col items-center w-full">
 
         {menuItems.map((item, idx) => {
