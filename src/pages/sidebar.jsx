@@ -17,11 +17,11 @@ import { useNavigate } from "react-router-dom";
 const SidebarItem = ({ icon: Icon, label, active, badge, onClick }) => (
   <div 
     onClick={onClick}
-    className={`relative flex flex-col items-center justify-center py-3 cursor-pointer transition-colors w-full
+    className={`relative flex flex-col items-center justify-center py-3 cursor-pointer transition-colors w-full flex-shrink-0
       ${active ? 'bg-[#333333] text-white border-r-[3px] border-red-500' : 'text-gray-400 hover:text-white'}`}
   >
     <Icon size={20} strokeWidth={1.5} />
-    <span className="text-[10px] mt-1 font-medium text-center px-1 leading-tight">
+    <span className="text-[10px] mt-1 font-medium text-center px-1 leading-tight whitespace-nowrap">
       {label}
     </span>
 
@@ -38,13 +38,11 @@ export default function Sidebar() {
 const menuItems = [
   { icon: Home, label: 'Home', onClick: () => navigate("/dashboard") },
   { icon: LayoutGrid, label: 'Purchase Request' },
-  { icon: FileText, label: ' RFQ/RFP', active: true },
+  { icon: FileText, label: 'RFQ/RFP', active: true },
  
   { icon: Users, label: 'Status' },
-{ icon: Gavel, label: 'Reverse Auction' },
-{ icon: CheckSquare, label: 'Internal Approval' },
-    
-
+  { icon: Gavel, label: 'Reverse Auction' },
+  { icon: CheckSquare, label: 'Internal Approval' },
   { icon: ShoppingCart, label: 'Purchase Orders' },
   { icon: BarChart2, label: 'Analytics' },
   { icon: FileBarChart, label: 'Reports' },
@@ -58,15 +56,15 @@ const menuItems = [
 
   return (
     
-<aside className="fixed left-0 top-0 w-[85px] bg-[#1e1e1e] h-screen flex flex-col py-3">
-      <nav className="flex flex-col items-center w-full">
+<aside className="fixed left-0 top-0 w-[85px] h-screen bg-[#1e1e1e] flex flex-col overflow-hidden">
+      <nav className="flex flex-col items-center w-full h-full overflow-y-auto overflow-x-hidden" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
 
         {menuItems.map((item, idx) => {
-          const hasDropdown = item.label === "Purchase Request" || item.label === " RFQ/RFP" || item.label === "Purchase Orders";
+          const hasDropdown = item.label === "Purchase Request" || item.label === "RFQ/RFP" || item.label === "Purchase Orders";
           const isOpen = openMenu === item.label;
 
           return (
-            <div key={idx} className="relative w-full">
+            <div key={idx} className="relative w-full flex-shrink-0">
               
  <SidebarItem
   {...item}
@@ -116,3 +114,4 @@ const menuItems = [
     </aside>
   );
 }
+
