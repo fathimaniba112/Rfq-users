@@ -9,6 +9,7 @@ import SpendDashboard from "./pages/Analytics-page";
 import BuyerBanner from "./pages/Buyerbanner";
  import ReportsDashboard from "./pages/report-page";
  import ChatInterface from "./pages/message-page";
+ import PurchaseRequestForm from "./pages/requisition-create";
 function App() {
   return (
     <Router>
@@ -34,6 +35,7 @@ function App() {
                <Route path="/Analytics-page" element={<SpendDashboard />} />
                 <Route path="/report-page" element={<ReportsDashboard />} />
                 <Route path="/message-page" element={<ChatInterface />} />
+                <Route path="/requisition-create" element={<PurchaseRequestForm />} />
             </Routes>
           </div>
         </div>
