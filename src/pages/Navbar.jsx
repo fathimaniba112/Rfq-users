@@ -10,14 +10,23 @@ import {
   Send, 
   User 
 } from 'lucide-react';
+import logo from '../assets/logo.png';   // import the image
 
 const Header = () => {
   return (
     <header className="flex h-16 items-center border-b border-gray-200 bg-[#F9F7F2] px-4 font-sans text-gray-700 flex-shrink-0">
       
       {/* 1. Logo Section */}
-      <div className="mr-6 text-2xl font-bold tracking-tight text-[#2D6A4F]">
-        Procural
+      <div className="mr-4 flex items-center gap-2">
+        <img 
+          src={logo}
+          alt="Procubid Logo" 
+          className="h-10 w-auto" 
+        />
+<span className="text-3xl font-extrabold tracking-[0.2em]">
+  <span className="text-[#1B4332]">ROCU</span>
+  <span className="text-[#7FA68A]">BID</span>
+</span>
       </div>
 
       {/* 2. Search & Filter Section */}

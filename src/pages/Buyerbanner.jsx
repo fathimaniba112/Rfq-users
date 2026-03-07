@@ -4,8 +4,8 @@ import { ShoppingCart } from 'lucide-react';
 const BuyerBanner = () => {
   return (
     <div className="w-full px-4 py-8 bg-[#F5F2EA] group flex-shrink-0">
-      <button
-        className="w-full flex flex-col items-center justify-center gap-1 bg-[#668b88]  hover:bg-[#76A09D] text-white py-3 px-6 transition-colors duration-200"
+      <button 
+        className="w-full flex flex-col items-center justify-center gap-1 bg-[#264E36]  hover:bg-[#668b88] text-white py-3 px-6 transition-colors duration-200"
         aria-label="Access Buyer Console"
       >
         <div className="flex items-center gap-2">
