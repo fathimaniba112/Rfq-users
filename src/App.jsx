@@ -7,6 +7,8 @@ import Header from "./pages/Navbar";
 import ViewSupplierResponses from "./pages/ViewSupplierResponses";
 import SpendDashboard from "./pages/Analytics-page";
 import BuyerBanner from "./pages/Buyerbanner";
+ import ReportsDashboard from "./pages/report-page";
+ import ChatInterface from "./pages/message-page";
 function App() {
   return (
     <Router>
@@ -30,6 +32,8 @@ function App() {
                 element={<ViewSupplierResponses />}
               />
                <Route path="/Analytics-page" element={<SpendDashboard />} />
+                <Route path="/report-page" element={<ReportsDashboard />} />
+                <Route path="/message-page" element={<ChatInterface />} />
             </Routes>
           </div>
         </div>

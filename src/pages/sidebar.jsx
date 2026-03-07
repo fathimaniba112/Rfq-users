@@ -75,8 +75,14 @@ const menuItems = [
      else if (item.label === "Home") {
       navigate("/dashboard");    
     }
-    else if (item.label === "Analytics") {
+     else if (item.label === "Analytics") {
       navigate("/Analytics-page");    
+    }
+    else if (item.label === "Messages") {
+      navigate("/message-page");    
+    }
+    else if (item.label === "Reports") {
+      navigate("/report-page");
     }
     else if (item.label === "Status") {
       navigate("/supplier-responses");

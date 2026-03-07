@@ -13,7 +13,16 @@ const lineData = [
   { month: '2025-02', amount: 18000 },
   { month: '2025-11', amount: 16000 },
 ];
-
+const dateOptions = [
+  "Today",
+  "Yesterday",
+  "Last 7 days",
+  "Last 30 days",
+  "Last 90 days",
+  "Last 180 days",
+  "Last 365 days (year)",
+  "Custom Range"
+];
 const dashboardTheme = {
   dark: '#2A2A2A',
   forest: '#43624A',
@@ -34,24 +43,54 @@ const StatCard = ({ title, value, Icon }) => (
 );
 
 const SpendDashboard = () => {
+  const [dateRange, setDateRange] = React.useState("");
+
   return (
     <div className="min-h-screen bg-[#F5F2EA] p-8 font-sans text-[#2A2A2A]">
-      <header className="mb-8">
-        <h1 className="text-2xl font-bold text-[#43624A] mb-6">Spend Management</h1>
-        
-        {/* Filters */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-          {['Date Range', 'Cost Centers', 'Supplier'].map((label) => (
-            <div key={label} className="flex flex-col gap-2">
-              <label className="text-sm font-semibold text-gray-600">{label}</label>
-              <div className="flex items-center justify-between border rounded px-3 py-2 text-gray-400 bg-white cursor-pointer hover:border-[#7A9C83] transition-colors">
-                <span>Please Select</span>
-                <ChevronDown size={16} />
-              </div>
-            </div>
-          ))}
-        </div>
-      </header>
+    <header className="mb-8">
+  <h1 className="text-2xl font-bold text-[#43624A] mb-6">Spend Management</h1>
+
+  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+
+    {/* Date Range */}
+    <div className="flex flex-col gap-2">
+      <label className="text-sm font-semibold text-gray-600">Date Range</label>
+
+      <select
+        value={dateRange}
+        onChange={(e) => setDateRange(e.target.value)}
+        className="border rounded px-3 py-2 text-gray-600 bg-white hover:border-[#7A9C83] focus:outline-none"
+      >
+        <option value="">Please Select</option>
+
+        {dateOptions.map((option) => (
+          <option key={option} value={option}>
+            {option}
+          </option>
+        ))}
+      </select>
+    </div>
+
+    {/* Cost Centers */}
+    <div className="flex flex-col gap-2">
+      <label className="text-sm font-semibold text-gray-600">Cost Centers</label>
+      <div className="flex items-center justify-between border rounded px-3 py-2 text-gray-400 bg-white cursor-pointer hover:border-[#7A9C83]">
+        <span>Please Select</span>
+        <ChevronDown size={16} />
+      </div>
+    </div>
+
+    {/* Supplier */}
+    <div className="flex flex-col gap-2">
+      <label className="text-sm font-semibold text-gray-600">Supplier</label>
+      <div className="flex items-center justify-between border rounded px-3 py-2 text-gray-400 bg-white cursor-pointer hover:border-[#7A9C83]">
+        <span>Please Select</span>
+        <ChevronDown size={16} />
+      </div>
+    </div>
+
+  </div>
+</header>
 
       {/* KPI Stats */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
