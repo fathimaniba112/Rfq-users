@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { 
   Search, 
   ChevronLeft, 
@@ -20,12 +21,20 @@ import {
   Menu,
   X
 } from 'lucide-react';
-import logo from '../assets/logo.png';
+import logo from '../assets/LOGO-2.png';
 
 const Header = () => {
+  const navigate = useNavigate();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState(null);
   const dropdownRef = useRef(null);
+
+  // Handle navigation
+  const handleNavigation = (path) => {
+    navigate(path);
+    setOpenDropdown(null);
+    setIsMobileMenuOpen(false);
+  };
 
   // Close dropdowns when clicking outside
   useEffect(() => {
@@ -70,9 +79,9 @@ const Header = () => {
       icon: SquarePen,
       label: 'Create',
       items: [
-        { icon: FileText, label: 'Create Requisition' },
-        { icon: FileSignature, label: 'Create RFX' },
-        { icon: FileCheck, label: 'Create PO' },
+        { icon: FileText, label: 'Create Requisition', path: '/requisition-create' },
+        { icon: FileSignature, label: 'Create RFX', path: '/requisition-create' },
+        { icon: FileCheck, label: 'Create PO', path: '/requisition-create' },
       ]
     },
     {
@@ -141,7 +150,11 @@ const Header = () => {
     return (
       <div className={cardStyle}>
         {item.items.map((subItem, idx) => (
-          <button key={idx} className={itemButtonStyle}>
+          <button 
+            key={idx} 
+            className={itemButtonStyle}
+            onClick={() => subItem.path && handleNavigation(subItem.path)}
+          >
             <div className={iconContainerStyle}>
               <subItem.icon size={24} color={primaryGreen} strokeWidth={1.5} className="sm:size-7" />
             </div>
@@ -240,7 +253,7 @@ const Header = () => {
       <div className="flex items-center gap-0.5">
         <img src={logo} alt="Procubid Logo" className="h-8 w-auto sm:h-10" />
         <span className="text-2xl sm:text-3xl font-extrabold tracking-[0.05em]">
-          <span style={{ color: primaryGreen }}>ROCU</span>
+          <span style={{ color: primaryGreen }}>PROCU</span>
           <span className="text-[#7A9C83]">BID</span>
         </span>
       </div>

@@ -5,7 +5,7 @@ import {
 } from 'lucide-react';
 import { useNavigate } from "react-router-dom";
 
-// Sub-component for individual items
+// Sidebar Item
 const SidebarItem = ({ icon: Icon, label, active, badge, onClick }) => (
   <div 
     onClick={onClick}
@@ -16,6 +16,7 @@ const SidebarItem = ({ icon: Icon, label, active, badge, onClick }) => (
     <span className="text-[10px] mt-1 font-medium text-center px-1 leading-tight whitespace-nowrap">
       {label}
     </span>
+
     {badge && (
       <div className="absolute top-5 right-6 w-2 h-2 bg-red-500 rounded-full border border-[#1e1e1e]" />
     )}
@@ -23,8 +24,9 @@ const SidebarItem = ({ icon: Icon, label, active, badge, onClick }) => (
 );
 
 export default function Sidebar() {
-  const [openMenu, setOpenMenu] = useState(null); 
-  const navigate = useNavigate();    
+
+  const [openMenu, setOpenMenu] = useState(null);
+  const navigate = useNavigate();
 
   const menuItems = [
     { icon: Home, label: 'Home' },
@@ -44,11 +46,11 @@ export default function Sidebar() {
     { label: 'View', icon: Eye }
   ];
 
-  // Logic to determine if an item has a dropdown
-  const isDropdownItem = (label) => 
+  const isDropdownItem = (label) =>
     ["Purchase Request", "RFQ/RFP", "Purchase Orders"].includes(label);
 
   const handleNavigation = (label) => {
+
     const routes = {
       "Home": "/dashboard",
       "Analytics": "/Analytics-page",
@@ -58,53 +60,108 @@ export default function Sidebar() {
       "Reverse Auction": "/reverse-auction",
       "Internal Approval": "/internal-approval"
     };
-    if (routes[label]) navigate(routes[label]);
+
+    if (routes[label]) {
+      navigate(routes[label]);
+    }
+  };
+
+  const handleDropdownNavigation = (menuLabel, action) => {
+
+    const routes = {
+
+      "Purchase Request": {
+        "Create": "/create-requisition",
+        "View": "/view-requisition"
+      },
+
+      "RFQ/RFP": {
+        "Create": "/create-rfx",
+        "View": "/view-rfx"
+      },
+
+      "Purchase Orders": {
+        "Create": "/create-purchaseOrder",
+        "View": "/view-purchaseOrder"
+      }
+
+    };
+
+    const path = routes[menuLabel]?.[action];
+
+    if (path) {
+      navigate(path);
+    }
+
+    setOpenMenu(null);
   };
 
   return (
     <aside className="fixed left-0 top-0 w-[85px] h-screen bg-[#1e1e1e] flex flex-col overflow-visible z-50">
+
       <nav className="flex flex-col items-center w-full h-full">
+
         {menuItems.map((item, idx) => {
+
           const hasDropdown = isDropdownItem(item.label);
           const isOpen = openMenu === item.label;
 
           return (
-            <div 
-              key={idx} 
+
+            <div
+              key={idx}
               className="relative w-full flex-shrink-0"
               onMouseEnter={() => hasDropdown && setOpenMenu(item.label)}
               onMouseLeave={() => setOpenMenu(null)}
             >
+
               <SidebarItem
                 {...item}
                 onClick={() => handleNavigation(item.label)}
               />
 
-              {/* Dropdown Container */}
               {hasDropdown && isOpen && (
+
                 <div className="absolute left-[85px] top-0 w-40 bg-white rounded-r-lg shadow-xl py-2 z-50 border border-gray-200">
+
                   {dropdownItems.map((dropItem, i) => {
+
                     const DropIcon = dropItem.icon;
+
                     return (
+
                       <div
                         key={i}
                         className="flex items-center gap-3 px-4 py-3 hover:bg-gray-100 cursor-pointer text-gray-700 transition-colors"
-                        onClick={() => {
-                          console.log(`Clicked ${dropItem.label} for ${item.label}`);
-                          setOpenMenu(null);
-                        }}
+                        onClick={() =>
+                          handleDropdownNavigation(item.label, dropItem.label)
+                        }
                       >
+
                         <DropIcon size={18} />
-                        <span className="text-sm font-medium">{dropItem.label}</span>
+
+                        <span className="text-sm font-medium">
+                          {dropItem.label}
+                        </span>
+
                       </div>
+
                     );
+
                   })}
+
                 </div>
+
               )}
+
             </div>
+
           );
+
         })}
+
       </nav>
+
     </aside>
   );
 }

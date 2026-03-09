@@ -3,8 +3,7 @@ import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LineChart, Line, AreaChart, Area 
 } from 'recharts';
 import { ShoppingBag, Users, FileText, Coffee, ChevronDown } from 'lucide-react';
-
-// Mock Data based on your images
+import ProcurementDashboard from "./Analytics2nd";
 const lineData = [
   { month: '2024-08', amount: 0 },
   { month: '2024-09', amount: 87743 },
@@ -152,6 +151,8 @@ const SpendDashboard = () => {
           </table>
         </div>
       </div>
+       {/* PROCUREMENT ANALYTICS SECTION BELOW */}
+    <ProcurementDashboard />
     </div>
   );
 };

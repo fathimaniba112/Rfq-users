@@ -10,6 +10,11 @@ import BuyerBanner from "./pages/Buyerbanner";
  import ReportsDashboard from "./pages/report-page";
  import ChatInterface from "./pages/message-page";
  import PurchaseRequestForm from "./pages/requisition-create";
+ import PRTable from "./pages/requisition-view";
+ import CreatePurchaseOrder from "./pages/PurchaseOrder-create";
+ import PurchaseOrderVIEW from "./pages/PurchaseOder-View";
+ import RFXcreate from "./pages/Rfx-create";
+  import RFQView from "./pages/RFX-view";
 function App() {
   return (
     <Router>
@@ -35,7 +40,16 @@ function App() {
                <Route path="/Analytics-page" element={<SpendDashboard />} />
                 <Route path="/report-page" element={<ReportsDashboard />} />
                 <Route path="/message-page" element={<ChatInterface />} />
-                <Route path="/requisition-create" element={<PurchaseRequestForm />} />
+                {/* <Route path="/requisition-create" element={<PurchaseRequestForm />} /> */}
+                        <Route path="/create-requisition" element={<PurchaseRequestForm />} />
+                        <Route path="/view-requisition" element={<PRTable />} />
+
+                        <Route path="/create-purchaseOrder" element={<CreatePurchaseOrder />} />
+                         <Route path="/view-purchaseOrder" element={<PurchaseOrderVIEW />} />
+
+
+                            <Route path="/create-rfx" element={<RFXcreate />} />
+                             <Route path="/view-rfx" element={<RFQView />} />
             </Routes>
           </div>
         </div>
