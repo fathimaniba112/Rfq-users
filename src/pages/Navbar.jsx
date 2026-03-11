@@ -9,15 +9,16 @@ import {
   Eye, 
   Send, 
   User,
-  FileText,        // Create Requisition
-  FileSignature,   // Create RFX
-  FileCheck,       // Create PO
-  ShieldCheck,     // Supplier Directory / Report a Bug
-  SlidersHorizontal, // Catalog Library / Live Chat
-  ToggleRight,     // Account Settings
-  LayoutGrid,      // Master Data
-  Users,           // User & Teams
-  MessageCircle,    // Whatsapp
+  LogOut,          // Added for Sign Out
+  FileText,        
+  FileSignature,   
+  FileCheck,       
+  ShieldCheck,     
+  SlidersHorizontal, 
+  ToggleRight,     
+  LayoutGrid,      
+  Users,           
+  MessageCircle,    
   Menu,
   X
 } from 'lucide-react';
@@ -66,7 +67,7 @@ const Header = () => {
 
   // Shared utility classes for dropdown consistency
   const dropdownPanelStyle = "invisible absolute top-full left-1/2 -translate-x-1/2 pt-2 opacity-0 transition-all group-hover:visible group-hover:opacity-100 z-50";
-  const dropdownPanelStyleMobile = "absolute top-full left-1/2 -translate-x-1/2 pt-2 z-50 w-56";
+  const dropdownPanelStyleMobile = "mt-2 w-full bg-gray-50 rounded-lg p-2 space-y-1";
   const cardStyle = "flex gap-4 sm:gap-8 rounded-xl border border-gray-100 bg-white p-4 sm:p-6 shadow-xl";
   const itemButtonStyle = "flex flex-col items-center gap-2 group/item w-20 sm:w-28";
   const iconContainerStyle = "rounded-lg bg-gray-50 p-2 sm:p-3 group-hover/item:bg-green-50 transition-colors";
@@ -79,9 +80,9 @@ const Header = () => {
       icon: SquarePen,
       label: 'Create',
       items: [
-        { icon: FileText, label: 'Create Requisition', path: '/requisition-create' },
-        { icon: FileSignature, label: 'Create RFX', path: '/requisition-create' },
-        { icon: FileCheck, label: 'Create PO', path: '/requisition-create' },
+        { icon: FileText, label: 'Create Requisition', path: '/create-requisition' },
+        { icon: FileSignature, label: 'Create RFX', path: '/create-rfx' },
+        { icon: FileCheck, label: 'Create PO', path: '/create-purchaseOrder' },
       ]
     },
     {
@@ -89,8 +90,8 @@ const Header = () => {
       icon: Folder,
       label: 'Directory',
       items: [
-        { icon: ShieldCheck, label: 'Supplier Directory' },
-        { icon: SlidersHorizontal, label: 'Catalog Library' },
+        { icon: ShieldCheck, label: 'Supplier Directory',path: '/supplierDirectories' },
+        { icon: SlidersHorizontal, label: 'Catalog Library',path: '/catlog-Library' },
       ]
     },
     {
@@ -98,9 +99,9 @@ const Header = () => {
       icon: Settings,
       label: 'Settings',
       items: [
-        { icon: ToggleRight, label: 'Account settings' },
+        { icon: ToggleRight, label: 'Account settings',path:'/company-information' },
         { icon: LayoutGrid, label: 'Master Data' },
-        { icon: Users, label: 'User & Teams' },
+        { icon: Users, label: 'User & Teams',path:'/user-teams' },
       ]
     },
     {
@@ -188,9 +189,9 @@ const Header = () => {
 
   // Render mobile/tablet navigation
   const renderMobileNav = () => (
-    <div className="flex flex-col gap-4 p-4">
+    <div className="flex flex-col h-full p-4">
       {/* Search in mobile */}
-      <div className="relative w-full">
+      <div className="relative w-full mb-4">
         <span className="absolute inset-y-0 left-3 flex items-center text-gray-400">
           <Search size={18} strokeWidth={1.5} />
         </span>
@@ -202,14 +203,14 @@ const Header = () => {
       </div>
 
       {/* Company badge in mobile */}
-      <div className="flex items-center justify-center rounded-lg border border-gray-200 bg-[#F3F4F6] px-3 py-2 text-xs font-medium uppercase tracking-wide text-gray-700">
+      <div className="flex items-center justify-center rounded-lg border border-gray-200 bg-[#F3F4F6] px-3 py-2 text-xs font-medium uppercase tracking-wide text-gray-700 mb-4">
         YATEEM AIRCONDITIONING C...
       </div>
 
-      {/* Navigation items */}
-      <div className="flex flex-col gap-2">
+      {/* Navigation items scrollable area */}
+      <div className="flex-1 overflow-y-auto space-y-2">
         {navItems.map((item) => (
-          <div key={item.name} className="relative" ref={dropdownRef}>
+          <div key={item.name} className="relative">
             <button
               onClick={() => toggleDropdown(item.name)}
               className="flex w-full items-center justify-between rounded-lg border border-gray-200 bg-white px-4 py-3 text-gray-700 hover:bg-gray-50"
@@ -219,28 +220,53 @@ const Header = () => {
                 <span className="font-medium">{item.label}</span>
               </div>
               {!item.isNotification && (
-                <span className={`transition-transform ${openDropdown === item.name ? 'rotate-180' : ''}`}>▼</span>
+                <span className={`transition-transform text-[10px] ${openDropdown === item.name ? 'rotate-180' : ''}`}>▼</span>
               )}
             </button>
             
-            {/* Mobile dropdown */}
-            {openDropdown === item.name && (
+            {openDropdown === item.name && !item.isNotification && (
               <div className={dropdownPanelStyleMobile}>
-                {renderDropdownContent(item)}
+                {item.items.map((sub, i) => (
+                  <button 
+                    key={i} 
+                    onClick={() => handleNavigation(sub.path)}
+                    className="flex items-center gap-3 w-full px-4 py-2 text-sm text-gray-600 hover:text-[#43624A]"
+                  >
+                    <sub.icon size={16} />
+                    {sub.label}
+                  </button>
+                ))}
               </div>
             )}
           </div>
         ))}
       </div>
 
-      {/* Profile in mobile */}
-      <div className="flex items-center border-t border-gray-200 pt-4 mt-2">
-        <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#43624A] text-white">
-          <User size={20} />
+      {/* Profile & Actions in mobile */}
+      <div className="mt-auto border-t border-gray-200 pt-4 px-2">
+        <div className="mb-4 space-y-1">
+         <button
+  onClick={() => navigate("/account")}
+  className="flex items-center w-full px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 rounded-md transition-colors"
+>
+  <User size={18} className="mr-3 text-gray-400" />
+  My Account
+</button>
+          
+          <button className="flex items-center w-full px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 rounded-md transition-colors">
+            <LogOut size={18} className="mr-3 text-gray-400" />
+            Sign Out
+          </button>
         </div>
-        <div className="ml-3">
-          <div className="text-sm font-bold leading-tight text-gray-900">ROSITA EVORA</div>
-          <div className="text-[10px] uppercase text-gray-500">Admin | 1GB of 5GB used</div>
+
+        <div className="flex items-center bg-gray-50 p-2 rounded-lg">
+          <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-[#43624A] text-white">
+            <User size={20} />
+          </div>
+          <div className="ml-3 overflow-hidden">
+            <div className="text-sm font-bold leading-tight text-gray-900 truncate uppercase">ROSITA EVORA</div>
+            <div className="text-[10px] uppercase text-gray-500 truncate">Admin | 1GB of 5GB used</div>
+          </div>
         </div>
       </div>
     </div>
@@ -249,7 +275,7 @@ const Header = () => {
   return (
     <header className="flex h-16 items-center border-b border-gray-200 bg-[#F5F2EA] px-4 font-sans text-gray-700 flex-shrink-0 relative z-50">
       
-      {/* 1. Logo Section - Always visible */}
+      {/* 1. Logo Section */}
       <div className="flex items-center gap-0.5">
         <img src={logo} alt="Procubid Logo" className="h-8 w-auto sm:h-10" />
         <span className="text-2xl sm:text-3xl font-extrabold tracking-[0.05em]">
@@ -258,7 +284,7 @@ const Header = () => {
         </span>
       </div>
 
-      {/* 2. Search Section - Hidden on mobile, visible on tablet+ */}
+      {/* 2. Search Section */}
       <div className="hidden md:flex flex-1 items-center gap-3 ml-4">
         <div className="relative w-48 lg:w-64">
           <span className="absolute inset-y-0 left-3 flex items-center text-gray-400">
@@ -275,7 +301,6 @@ const Header = () => {
         </div>
       </div>
 
-      {/* Spacer */}
       <div className="flex-1"></div>
 
       {/* 3. Desktop Navigation Icons Section */}
@@ -284,20 +309,35 @@ const Header = () => {
       {/* Mobile menu button */}
       <button 
         onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-        className="lg:hidden p-2 hover:bg-gray-100 rounded-lg"
+        className="lg:hidden p-2 hover:bg-gray-100 rounded-lg ml-4"
         aria-label="Toggle menu"
       >
         {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
       </button>
 
-      {/* 4. Profile Section - Hidden on mobile */}
-      <div className="hidden lg:flex items-center border-l border-gray-300 pl-6">
+      {/* 4. Profile Section with HOVER menu */}
+      <div className="hidden lg:flex group relative items-center border-l border-gray-300 pl-6 h-full cursor-pointer">
         <div className="mr-3 text-right">
-          <div className="text-sm font-bold leading-tight text-gray-900">ROSITA EVORA</div>
+          <div className="text-sm font-bold leading-tight text-gray-900 uppercase">ROSITA EVORA</div>
           <div className="text-[10px] uppercase text-gray-500">Admin <span className="mx-1">|</span> 1GB of 5GB used</div>
         </div>
         <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#43624A] text-white">
           <User size={20} />
+        </div>
+
+        {/* Hover Menu Box */}
+        <div className="absolute top-full right-0 w-48 bg-white shadow-xl rounded-b-xl border border-gray-100 py-1 invisible opacity-0 group-hover:visible group-hover:opacity-100 transition-all duration-200 z-[60]">
+          <button className="flex items-center w-full px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 transition-colors">
+            <User size={18} className="mr-3 text-gray-400" />
+            My Account
+          </button>
+          
+          <div className="border-t border-gray-100"></div>
+
+          <button className="flex items-center w-full px-4 py-3 text-sm text-red-600 hover:bg-red-50 transition-colors">
+            <LogOut size={18} className="mr-3 text-red-400" />
+            Sign Out
+          </button>
         </div>
       </div>
 
@@ -310,7 +350,7 @@ const Header = () => {
       )}
 
       {/* Mobile Menu Drawer */}
-      <div className={`fixed top-16 right-0 h-[calc(100vh-4rem)] w-80 max-w-[85vw] bg-white shadow-2xl transform transition-transform duration-300 z-50 lg:hidden ${isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}>
+      <div className={`fixed top-0 right-0 h-full w-80 max-w-[85vw] bg-white shadow-2xl transform transition-transform duration-300 z-50 lg:hidden ${isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}>
         {renderMobileNav()}
       </div>
 
@@ -319,4 +359,3 @@ const Header = () => {
 };
 
 export default Header;
-
