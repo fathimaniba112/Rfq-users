@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
- import { 
+import { 
   Search, 
   UserCog2,
   ChevronLeft, 
@@ -10,7 +10,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
   Eye, 
   Send, 
   User,
-  LogOut,          // Added for Sign Out
+  LogOut,
   FileText,        
   FileSignature,   
   FileCheck,       
@@ -25,20 +25,23 @@ import { useNavigate, useLocation } from 'react-router-dom';
 } from 'lucide-react';
 
 import logo from "../../assets/LOGO-2.png";
+
 const BuyerHeader = () => {
   const navigate = useNavigate();
   const location = useLocation();
-   const isBuyer = location.pathname.startsWith("/buyer");
+  const isBuyer = location.pathname.startsWith("/buyer");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState(null);
   const dropdownRef = useRef(null);
-const toggleMode = () => {
-  if (isBuyer) {
-    navigate("/seller/dashboard");
-  } else {
-    navigate("/buyer/dashboard");
-  }
-};
+
+  const toggleMode = () => {
+    if (isBuyer) {
+      navigate("/seller/dashboard");
+    } else {
+      navigate("/buyer/dashboard");
+    }
+  };
+
   // Handle navigation
   const handleNavigation = (path) => {
     navigate(path);
@@ -88,19 +91,19 @@ const toggleMode = () => {
       name: 'create',
       icon: SquarePen,
       label: 'Create',
-items: [
-  { icon: FileText, label: 'Create Requisition', path: '/buyer/create-requisition' },
-  { icon: FileSignature, label: 'Create RFX', path: '/buyer/create-rfx' },
-  { icon: FileCheck, label: 'Create PO', path: '/buyer/create-purchaseOrder' },
-]
+      items: [
+        { icon: FileText, label: 'Create Requisition', path: '/buyer/create-requisition' },
+        { icon: FileSignature, label: 'Create RFX', path: '/buyer/create-rfx' },
+        { icon: FileCheck, label: 'Create PO', path: '/buyer/create-purchaseOrder' },
+      ]
     },
     {
       name: 'directory',
       icon: Folder,
       label: 'Directory',
       items: [
-       { icon: ShieldCheck, label: 'Supplier Directory', path: '/buyer/supplierDirectories' },
-{ icon: SlidersHorizontal, label: 'Catalog Library', path: '/buyer/catlog-Library' },
+        { icon: ShieldCheck, label: 'Supplier Directory', path: '/buyer/supplierDirectories' },
+        { icon: SlidersHorizontal, label: 'Catalog Library', path: '/buyer/catlog-Library' },
       ]
     },
     {
@@ -108,9 +111,9 @@ items: [
       icon: Settings,
       label: 'Settings',
       items: [
-       { icon: ToggleRight, label: 'Account settings', path: '/buyer/company-information' },
-{ icon: LayoutGrid, label: 'Master Data', path: '/buyer/catlog-Library' },
-{ icon: Users, label: 'User & Teams', path: '/buyer/user-teams' },
+        { icon: ToggleRight, label: 'Account settings', path: '/buyer/company-information' },
+        { icon: LayoutGrid, label: 'Master Data', path: '/buyer/catlog-Library' },
+        { icon: Users, label: 'User & Teams', path: '/buyer/user-teams' },
       ]
     },
     {
@@ -141,7 +144,6 @@ items: [
             <h3 className="text-sm font-bold text-[#43624A]">Notifications</h3>
           </div>
           <div className="max-h-64 overflow-y-auto">
-            
             <button className="w-full text-left px-4 py-3 hover:bg-green-50 transition-colors border-b border-gray-50">
               <p className="text-xs font-bold text-gray-900">Request for RFQ Approval</p>
               <p className="text-[10px] text-gray-500 mt-0.5">You have received an approval request against RFQ #78835...</p>
@@ -179,13 +181,13 @@ items: [
   // Render desktop navigation icons
   const renderDesktopNav = () => (
     <div className="hidden lg:flex items-center gap-4 xl:gap-6 text-gray-500">
-<button
-  onClick={toggleMode}
-  title={isBuyer ? "Switch to Seller Console" : "Switch to Buyer Console"}
-  className="hover:text-gray-800"
->
-  <UserCog2 size={20} strokeWidth={1.5} />
-</button>
+      <button
+        onClick={toggleMode}
+        title={isBuyer ? "Switch to Seller Console" : "Switch to Buyer Console"}
+        className="hover:text-gray-800"
+      >
+        <UserCog2 size={20} strokeWidth={1.5} />
+      </button>
       {navItems.map((item) => (
         <div key={item.name} className="group relative flex items-center">
           <button className="group-hover:text-gray-800 py-4">
@@ -224,6 +226,22 @@ items: [
 
       {/* Navigation items scrollable area */}
       <div className="flex-1 overflow-y-auto space-y-2">
+        
+        {/* ADDED: Switch Mode Button for Mobile Drawer */}
+        <button
+          onClick={() => {
+            toggleMode();
+            setIsMobileMenuOpen(false);
+          }}
+          className="flex w-full items-center justify-between rounded-lg border border-[#43624A]/20 bg-green-50 px-4 py-3 text-[#43624A] hover:bg-green-100 transition-colors mb-4"
+        >
+          <div className="flex items-center gap-3">
+            <UserCog2 size={20} strokeWidth={1.5} />
+            <span className="font-bold text-sm">Switch to {isBuyer ? "Seller" : "Buyer"} Console</span>
+          </div>
+          <ChevronLeft size={14} className="rotate-180 opacity-50" />
+        </button>
+
         {navItems.map((item) => (
           <div key={item.name} className="relative">
             <button
@@ -260,15 +278,18 @@ items: [
       {/* Profile & Actions in mobile */}
       <div className="mt-auto border-t border-gray-200 pt-4 px-2">
         <div className="mb-4 space-y-1">
-      <button
-  onClick={() => navigate("/buyer/profile-basic")}
-  className="flex items-center w-full px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
->
-  <User size={18} className="mr-3 text-gray-400" />
-  My Account
-</button>
+          <button
+            onClick={() => {
+              navigate("/buyer/profile-basic");
+              setIsMobileMenuOpen(false);
+            }}
+            className="flex items-center w-full px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+          >
+            <User size={18} className="mr-3 text-gray-400" />
+            My Account
+          </button>
           
-          <button className="flex items-center w-full px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 rounded-md transition-colors">
+          <button className="flex items-center w-full px-4 py-3 text-sm font-medium text-gray-700 hover:bg-gray-100 rounded-md transition-colors">
             <LogOut size={18} className="mr-3 text-gray-400" />
             Sign Out
           </button>
@@ -320,7 +341,7 @@ items: [
 
       {/* 3. Desktop Navigation Icons Section */}
       {renderDesktopNav()}
- 
+
       {/* Mobile menu button */}
       <button 
         onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -342,13 +363,13 @@ items: [
 
         {/* Hover Menu Box */}
         <div className="absolute top-full right-0 w-48 bg-white shadow-xl rounded-b-xl border border-gray-100 py-1 invisible opacity-0 group-hover:visible group-hover:opacity-100 transition-all duration-200 z-[60]">
-        <button
-  onClick={() => navigate("/profile-basic")}
-  className="flex items-center w-full px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
->
-  <User size={18} className="mr-3 text-gray-400" />
-  My Account
-</button>
+          <button
+            onClick={() => navigate("/profile-basic")}
+            className="flex items-center w-full px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+          >
+            <User size={18} className="mr-3 text-gray-400" />
+            My Account
+          </button>
           
           <div className="border-t border-gray-100"></div>
 
