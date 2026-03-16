@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
  import { 
   Search, 
+  UserCog2,
   ChevronLeft, 
   SquarePen, 
   Folder, 
@@ -22,6 +23,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
   Menu,
   X
 } from 'lucide-react';
+
 import logo from "../../assets/LOGO-2.png";
 const BuyerHeader = () => {
   const navigate = useNavigate();
@@ -177,8 +179,13 @@ items: [
   // Render desktop navigation icons
   const renderDesktopNav = () => (
     <div className="hidden lg:flex items-center gap-4 xl:gap-6 text-gray-500">
-      <button className="hover:text-gray-800"><ChevronLeft size={20} strokeWidth={1.5} /></button>
-
+<button
+  onClick={toggleMode}
+  title={isBuyer ? "Switch to Seller Console" : "Switch to Buyer Console"}
+  className="hover:text-gray-800"
+>
+  <UserCog2 size={20} strokeWidth={1.5} />
+</button>
       {navItems.map((item) => (
         <div key={item.name} className="group relative flex items-center">
           <button className="group-hover:text-gray-800 py-4">
@@ -310,16 +317,10 @@ items: [
       </div>
 
       <div className="flex-1"></div>
-{/* Buyer / Seller Toggle Button */}
-<button
-  onClick={toggleMode}
-  className="px-4 py-2 mr-4 text-sm font-semibold text-white rounded-lg bg-[#43624A] hover:bg-[#36513c] transition"
->
-  {isBuyer ? "Seller" : "Buyer"}
-</button>
+
       {/* 3. Desktop Navigation Icons Section */}
       {renderDesktopNav()}
-
+ 
       {/* Mobile menu button */}
       <button 
         onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
