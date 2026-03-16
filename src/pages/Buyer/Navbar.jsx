@@ -1,7 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { 
-  Search, 
+  Search,
+  Home, 
   UserCog2,
   ChevronLeft, 
   SquarePen, 
@@ -188,6 +189,16 @@ const BuyerHeader = () => {
       >
         <UserCog2 size={20} strokeWidth={1.5} />
       </button>
+      {/* Home Button */}
+  <button
+    onClick={() => {
+      navigate("/");
+      setIsMobileMenuOpen(false);
+    }}
+   >
+    <Home size={20} strokeWidth={1.5} />
+    
+  </button>
       {navItems.map((item) => (
         <div key={item.name} className="group relative flex items-center">
           <button className="group-hover:text-gray-800 py-4">
@@ -241,7 +252,17 @@ const BuyerHeader = () => {
           </div>
           <ChevronLeft size={14} className="rotate-180 opacity-50" />
         </button>
-
+{/* Home Button */}
+  <button
+    onClick={() => {
+      navigate("/");
+      setIsMobileMenuOpen(false);
+    }}
+    className="flex w-full items-center gap-3 rounded-lg border border-gray-200 bg-white px-4 py-3 text-gray-700 hover:bg-gray-50"
+  >
+    <Home size={20} strokeWidth={1.5} />
+    <span className="font-medium">Home</span>
+  </button>
         {navItems.map((item) => (
           <div key={item.name} className="relative">
             <button

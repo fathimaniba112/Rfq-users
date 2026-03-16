@@ -73,6 +73,7 @@ import EmailSubscription from "./pages/Seller/EmailSubscription";
 import ReceivedQuestions from "./pages/Seller/ReceivedQuestions";
 import WalletHome from "./pages/Seller/Wallet-Home";
 import WalletTransactions from "./pages/Seller/WalletTransation";
+import SellerBanner from "./pages/Seller/SellerBanner";  
 //------------------------------------------------SELLER END------------------------------------------------------------
 
 
@@ -157,6 +158,8 @@ function BuyerLayout() {
 
 /* ================= SELLER LAYOUT ================= */
 
+/* ================= SELLER LAYOUT ================= */
+
 function SellerLayout() {
   return (
     <div className="min-h-screen bg-[#F5F2EA] font-sans antialiased flex">
@@ -165,8 +168,10 @@ function SellerLayout() {
       <div className="flex flex-col flex-1">
         <Navbar />
 
+        
         <main className="mt-16 ml-20 flex-1 p-4">
-
+          
+           <SellerBanner />
           <Routes>
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="rfx-bought" element={<RFXbought />} />

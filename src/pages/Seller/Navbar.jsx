@@ -53,6 +53,7 @@ const Navbar = () => {
             <button onClick={toggleMode} className="hover:text-gray-800">
               <UserCog2 size={20} strokeWidth={1.5} />
             </button>
+            <Home size={20} className="cursor-pointer hover:text-[#43624A]" onClick={() => navigate("/")} />
 
             {/* Quote Dropdown */}
             <div className="relative h-full flex items-center group">
@@ -68,7 +69,6 @@ const Navbar = () => {
               </div>
             </div>
 
-            <Home size={20} className="cursor-pointer hover:text-[#43624A]" onClick={() => navigate("/")} />
 
             {/* Directory Dropdown */}
             <div className="relative h-full flex items-center group">
