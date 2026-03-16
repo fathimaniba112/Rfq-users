@@ -7,11 +7,22 @@ import {
   ShieldCheck, ListTree, SlidersHorizontal, LayoutGrid, 
   Users, Wallet, Bug, MessageCircle, Phone 
 } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import logo from "../../assets/LOGO-2.png";
+
 
 const Navbar = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+const isBuyer = location.pathname.startsWith("/buyer");
+
+const toggleMode = () => {
+  if (isBuyer) {
+    navigate("/seller/dashboard");
+  } else {
+    navigate("/buyer/dashboard");
+  }
+};
   return (
     <nav className="h-16 bg-[#F5F2EA] border-b border-gray-200 flex items-center justify-between px-4 md:px-6 fixed top-0 right-0 left-0 lg:left-20 z-50">
       
@@ -33,6 +44,13 @@ const Navbar = () => {
 
       {/* Navigation Icons Section */}
       <div className="flex items-center gap-3 md:gap-5 text-gray-500">
+        {/* Buyer / Seller Toggle Button */}
+<button
+  onClick={toggleMode}
+  className="px-4 py-2 mr-4 text-sm font-semibold text-white rounded-lg bg-[#43624A] hover:bg-[#36513c] transition"
+>
+  {isBuyer ? "Seller" : "Buyer"}
+</button>
         <div className="flex items-center gap-2 md:gap-4 pr-3 border-r border-gray-200 h-10">
           
           <ArrowLeft size={20} className="cursor-pointer hover:text-[#43624A] transition-colors" />
