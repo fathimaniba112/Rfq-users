@@ -163,7 +163,7 @@ const BuyerRFXcreate = () => {
                   >
                     <strong>Request for Quotation (RFQ)</strong>
                     <p>
-                      (Request for Quotation): Focuses on Price. Use this when you know exactly what you want and just need to know how much it will cost.
+                       Focuses on Price. Use this when you know exactly what you want and just need to know how much it will cost.
                     </p>
                   </div>
 
@@ -183,7 +183,7 @@ const BuyerRFXcreate = () => {
                   >
                     <strong>Request for Proposal (RFP)</strong>
                     <p>
-                      (Request for Proposal): Focuses on Value and Strategy. Use this when you have a problem to solve but want the vendor to propose the best solution and methodology.
+                      Focuses on Value and Strategy. Use this when you have a problem to solve but want the vendor to propose the best solution and methodology.
                     </p>
                   </div>
 
@@ -209,35 +209,8 @@ const BuyerRFXcreate = () => {
                   </button>
                 </div>
 
-                {/* REQUISITION TEMPLATE */}
-                <div className="mt-4 max-w-md">
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">
-                    Requisition Template
-                  </label>
-
-                  <div className="relative">
-                    <select className="w-full p-3 border border-gray-300 rounded bg-gray-50 text-sm appearance-none">
-                      <option>Use Default</option>
-                    </select>
-
-                    <ChevronDown size={18} className="absolute right-3 top-3 text-gray-400" />
-                  </div>
-                </div>
-
-                {/* REQUISITION SOURCE */}
-                <div className="mt-4 max-w-md">
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">
-                    Requisition Source *
-                  </label>
-
-                  <div className="relative">
-                    <select className="w-full p-3 border border-gray-300 rounded text-sm appearance-none">
-                      <option>Please Select</option>
-                    </select>
-
-                    <ChevronDown size={18} className="absolute right-3 top-3 text-gray-400" />
-                  </div>
-                </div>
+        
+        
 
                 {/* AWARD TYPE */}
                 <div className="mt-6">
@@ -344,7 +317,7 @@ const BuyerRFXcreate = () => {
 
             <button className="px-6 py-2 border rounded"
               style={{ color: colors.deepGreen, borderColor: colors.deepGreen }}>
-              Draft
+              Save Draft
             </button>
 
             <button

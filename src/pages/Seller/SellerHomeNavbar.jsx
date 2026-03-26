@@ -8,14 +8,13 @@ import {
 } from "lucide-react";
 import logo from "../../assets/LOGO-2.png";
 
-const Navbar = () => {
+const SellerHomeNavbar = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   
- const isBuyer = location.pathname.startsWith("/buyer");
-const isSeller = location.pathname.startsWith("/seller");
-const isHome = location.pathname === "/seller/home" || location.pathname === "/buyer/home";
+  const isBuyer = location.pathname.startsWith("/buyer");
+
   const toggleMode = () => {
     if (isBuyer) {
       navigate("/seller/dashboard");
@@ -46,60 +45,46 @@ const isHome = location.pathname === "/seller/home" || location.pathname === "/b
           </div>
         </div>
 
+        {/* Center Section: Credits/Wallet Icon */}
+        <div className="hidden lg:flex items-center bg-[#F5F2EA]">
+          <button 
+            onClick={() => navigate("/seller/wallet-home")}
+            className="flex items-center gap-2 px-4 py-1.5 bg-white border border-gray-200 rounded-lg hover:border-[#43624A] transition-all group"
+          >
+            <Wallet size={18} className="text-[#43624A]" />
+            <span className="text-lg font-bold text-gray-800">0</span>
+            <div className="ml-1 px-3 py-0.5 bg-[#43624A] text-white text-[11px] font-bold rounded-md group-hover:bg-[#364f3c]">
+              Add Credits
+            </div>
+          </button>
+        </div>
+
         {/* Right Section: Desktop Icons & Profile & Hamburger */}
         <div className="flex items-center gap-3 md:gap-5 text-gray-500">
           
           {/* Desktop-only Icon Group (Hidden on mobile) */}
           <div className="hidden md:flex items-center gap-2 md:gap-4 pr-3 border-r border-gray-200 h-10">
-            
-{/* Updated Home Icon Connection */}
- <div className="flex items-center gap-2">
-
-  {/* Buyer */}
-  <button
-    onClick={() => navigate("/buyer/dashboard")}
-    className={`px-4 py-1.5 rounded-md text-sm font-semibold transition-all
-      ${isBuyer ? "bg-[#43624A] text-white animate-pulse" : "bg-gray-200 text-gray-700 hover:bg-gray-300"}`}
-  >
-    Buyer
-  </button>
-
-  {/* Home */}
-  <button
-    onClick={() => {
-      if (isSeller) navigate("/seller/home");
-      else navigate("/buyer/home");
-    }}
-    className={`px-4 py-1.5 rounded-md text-sm font-semibold transition-all
-      ${isHome ? "bg-[#43624A] text-white animate-pulse" : "bg-gray-200 text-gray-700 hover:bg-gray-300"}`}
-  >
-    Home
-  </button>
-
-  {/* Seller */}
-  <button
-    onClick={() => navigate("/seller/dashboard")}
-    className={`px-4 py-1.5 rounded-md text-sm font-semibold transition-all
-      ${isSeller ? "bg-[#43624A] text-white animate-pulse" : "bg-gray-200 text-gray-700 hover:bg-gray-300"}`}
-  >
-    Seller
-  </button>
-
-</div>
+            <button onClick={toggleMode} className="hover:text-gray-800">
+              <UserCog2 size={20} strokeWidth={1.5} />
+            </button>
+            <Home 
+              size={20} 
+              className="cursor-pointer hover:text-[#43624A] transition-colors" 
+              onClick={() => navigate("/seller/home")} 
+            />
             {/* Quote Dropdown */}
             <div className="relative h-full flex items-center group">
               <ExternalLink size={20} className="cursor-pointer group-hover:text-[#43624A]" />
               <div className="absolute top-full right-0 pt-2 hidden group-hover:block animate-in fade-in zoom-in-95 duration-200">
                 <DropdownWrapper width="w-[320px]">
                   <div className="grid grid-cols-3 gap-1 p-4">
-                    <DropdownAction icon={<MessageSquare size={34} className="text-blue-600" />} label="Create Quote" path="/seller/create-quote" />
-                    <DropdownAction icon={<BookOpen size={34} className="text-blue-600" />} label="Create Proposal" path="/seller/create-proposal" />
-                    <DropdownAction icon={<FileCheck size={34} className="text-blue-600" />} label="Accept Order" path="/seller/orders" />
+                    <DropdownAction icon={<MessageSquare size={34} className="text-[#43624A]" />} label="Create Quote" path="/seller/create-quote" />
+                    <DropdownAction icon={<BookOpen size={34} className="text-[#43624A]" />} label="Create Proposal" path="/seller/create-proposal" />
+                    <DropdownAction icon={<FileCheck size={34} className="text-[#43624A]" />} label="Accept Order" path="/seller/orders" />
                   </div>
                 </DropdownWrapper>
               </div>
             </div>
-
 
             {/* Directory Dropdown */}
             <div className="relative h-full flex items-center group">
@@ -107,8 +92,8 @@ const isHome = location.pathname === "/seller/home" || location.pathname === "/b
               <div className="absolute top-full right-0 pt-2 hidden group-hover:block">
                 <DropdownWrapper width="w-[240px]">
                   <div className="grid grid-cols-2 gap-2 p-4">
-                    <DropdownAction icon={<ShieldCheck size={34} className="text-blue-600" />} label="Customer Directory" path="/seller/customer-directory" />
-                    {/* <DropdownAction icon={<ListTree size={34} className="text-blue-600" />} label="Catalog Library" path="/seller/catalog" /> */}
+                    <DropdownAction icon={<ShieldCheck size={34} className="text-[#43624A]" />} label="Customer Directory" path="/seller/customer-directory" />
+                    {/* <DropdownAction icon={<ListTree size={34} className="text-[#43624A]" />} label="Catalog Library" path="/seller/catalog" /> */}
                   </div>
                 </DropdownWrapper>
               </div>
@@ -120,10 +105,10 @@ const isHome = location.pathname === "/seller/home" || location.pathname === "/b
               <div className="absolute top-full right-0 pt-2 hidden group-hover:block">
                 <DropdownWrapper width="w-[340px]">
                   <div className="grid grid-cols-4 gap-1 p-3">
-                    <DropdownAction icon={<SlidersHorizontal size={28} className="text-blue-600" />} label="Account settings" path="/seller/company-information" />
-                    {/* <DropdownAction icon={<LayoutGrid size={28} className="text-blue-600" />} label="Master Data" path="/seller/catalog" /> */}
-                    <DropdownAction icon={<Users size={28} className="text-blue-600" />} label="User & Teams" path="/seller/users-Roles" />
-                    <DropdownAction icon={<Wallet size={28} className="text-blue-600" />} label="Wallet" path="/seller/wallet-home" />
+                    <DropdownAction icon={<SlidersHorizontal size={28} className="text-[#43624A]" />} label="Account settings" path="/seller/company-information" />
+                    {/* <DropdownAction icon={<LayoutGrid size={28} className="text-[#43624A]" />} label="Master Data" path="/seller/catalog" /> */}
+                    <DropdownAction icon={<Users size={28} className="text-[#43624A]" />} label="User & Teams" path="/seller/users-Roles" />
+                    <DropdownAction icon={<Wallet size={28} className="text-[#43624A]" />} label="Wallet" path="/seller/wallet-home" />
                   </div>
                 </DropdownWrapper>
               </div>
@@ -135,9 +120,9 @@ const isHome = location.pathname === "/seller/home" || location.pathname === "/b
               <div className="absolute top-full right-0 pt-2 hidden group-hover:block">
                 <DropdownWrapper width="w-[280px]">
                   <div className="grid grid-cols-3 gap-1 p-4">
-                    <DropdownAction icon={<Bug size={32} className="text-blue-600" />} label="Report a Bug" path="/report-bug" />
-                    <DropdownAction icon={<MessageCircle size={32} className="text-blue-600" />} label="Live Chat" path="/chat" />
-                    <DropdownAction icon={<Phone size={32} className="text-blue-600" />} label="Whatsapp" path="/whatsapp" />
+                    <DropdownAction icon={<Bug size={32} className="text-[#43624A]" />} label="Report a Bug" path="/report-bug" />
+                    <DropdownAction icon={<MessageCircle size={32} className="text-[#43624A]" />} label="Live Chat" path="/chat" />
+                    <DropdownAction icon={<Phone size={32} className="text-[#43624A]" />} label="Whatsapp" path="/whatsapp" />
                   </div>
                 </DropdownWrapper>
               </div>
@@ -167,7 +152,7 @@ const isHome = location.pathname === "/seller/home" || location.pathname === "/b
         </div>
       </nav>
 
-      {/* --- MOBILE SIDEBAR (COMPLETE WITH ALL DROPDOWNS) --- */}
+      {/* --- MOBILE SIDEBAR --- */}
       {isMobileMenuOpen && (
         <div className="fixed inset-0 z-[100] lg:hidden">
           <div className="fixed inset-0 bg-black/40 backdrop-blur-sm" onClick={() => setIsMobileMenuOpen(false)} />
@@ -203,6 +188,8 @@ const isHome = location.pathname === "/seller/home" || location.pathname === "/b
                     label={isBuyer ? "Switch to Seller Console" : "Switch to Buyer Console"} 
                     onClick={() => {toggleMode(); setIsMobileMenuOpen(false)}} 
                   />
+                  {/* Mobile Wallet Link */}
+                  <MobileNavLink icon={<Wallet size={20}/>} label="Wallet (0 Credits)" path="/seller/wallet-home" close={() => setIsMobileMenuOpen(false)} />
                 </div>
 
                 <div className="h-px bg-gray-100" />
@@ -232,7 +219,7 @@ const isHome = location.pathname === "/seller/home" || location.pathname === "/b
                 <div className="space-y-4">
                   <MobileNavLink icon={<SlidersHorizontal size={20}/>} label="Account Settings" path="/seller/company-information" close={() => setIsMobileMenuOpen(false)} />
                   <MobileNavLink icon={<Users size={20}/>} label="Users & Teams" path="/seller/users-Roles" close={() => setIsMobileMenuOpen(false)} />
-                  <MobileNavLink icon={<Wallet size={20}/>} label="Wallet" path="/seller/wallet-home" close={() => setIsMobileMenuOpen(false)} />
+                  <MobileNavLink icon={<Wallet size={20}/>} label="Wallet Settings" path="/seller/wallet-home" close={() => setIsMobileMenuOpen(false)} />
                 </div>
 
                 <div className="h-px bg-gray-100" />
@@ -259,7 +246,7 @@ const isHome = location.pathname === "/seller/home" || location.pathname === "/b
   );
 };
 
-/* --- Updated Helper Components --- */
+/* --- Helper Components --- */
 
 const DropdownWrapper = ({ children, width }) => (
   <div className={`${width} bg-white rounded-lg shadow-[0_10px_40px_rgba(0,0,0,0.15)] border border-gray-100 overflow-hidden`}>
@@ -299,11 +286,4 @@ const MobileNavLink = ({ icon, label, onClick, path, close, className = "" }) =>
   );
 };
 
-const NotificationItem = ({ id, text }) => (
-  <div className="text-left border-b border-gray-50 last:border-0 pb-3">
-    <p className="text-[13px] font-bold text-gray-800">RFQ Received</p>
-    <p className="text-[11px] text-gray-500 mt-1 leading-relaxed">#{id} - {text}</p>
-  </div>
-);
-
-export default Navbar;
+export default SellerHomeNavbar;

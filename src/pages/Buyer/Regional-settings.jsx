@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { X, ChevronDown, Trash2, Plus } from 'lucide-react';
 import BuyerSettingsSidebar from "./sidebar-settings";
+import Select from "react-select";
+import { useEffect, useRef } from "react";
+import moment from "moment-timezone";
 
 const BuyerRegionSettings = () => {
   const [taxRows, setTaxRows] = useState([{ id: 1, name: 'VAT', value: '10' }]);
@@ -12,8 +15,36 @@ const BuyerRegionSettings = () => {
   const removeTaxRow = (id) => {
     setTaxRows(taxRows.filter(row => row.id !== id));
   };
+const timeZones = moment.tz.names().map((tz) => {
+  const offset = moment.tz(tz).format("Z");
+  return `${tz} (GMT${offset})`;
+});
 
-  return (
+const timeZoneOptions = timeZones.map((tz) => ({
+  label: tz,
+  value: tz,
+}));
+
+const [isOpen, setIsOpen] = useState(false);
+const getUserTZ = () => {
+  const tz = moment.tz.guess();
+  const offset = moment.tz(tz).format("Z");
+  return `${tz} (GMT${offset})`;
+};
+
+const [selectedTZ, setSelectedTZ] = useState(getUserTZ());
+const dropdownRef = useRef();
+
+useEffect(() => {
+  const handleClickOutside = (e) => {
+    if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+      setIsOpen(false);
+    }
+  };
+  document.addEventListener("mousedown", handleClickOutside);
+  return () => document.removeEventListener("mousedown", handleClickOutside);
+}, []);
+return (
        <div className="flex min-h-screen bg-[#F5F2EA]">
       <BuyerSettingsSidebar />
     
@@ -34,19 +65,45 @@ const BuyerRegionSettings = () => {
           <div className="md:w-2/3 space-y-6">
             
             {/* Time Zone */}
-            <div>
-              <label className="block text-sm font-medium text-[#7A9C83] mb-2">Time Zone</label>
-              <div className="relative">
-                <div className="w-full border border-gray-200 rounded-lg p-3 flex items-center justify-between bg-white text-[#2A2A2A]">
-                  <span>Bahrain (GMT+03:00)</span>
-                  <div className="flex items-center gap-2 text-gray-400">
-                    <X size={16} className="cursor-pointer hover:text-red-400" />
-                    <div className="w-[1px] h-4 bg-gray-200"></div>
-                    <ChevronDown size={18} />
-                  </div>
-                </div>
-              </div>
+        <div className="relative" ref={dropdownRef}>
+            <label className="block text-sm font-medium text-[#7A9C83] mb-2">
+            Time Zone
+          </label>
+
+          <div className="relative">
+
+            {/* Input box */}
+            <div
+              onClick={() => setIsOpen(!isOpen)}
+              className="w-full border border-gray-200 rounded-lg p-3 flex items-center justify-between bg-white cursor-pointer"
+            >
+              <span>{selectedTZ}</span>
+
+              <ChevronDown
+                className={`transition-transform ${isOpen ? "rotate-180" : ""}`}
+                size={18}
+              />
             </div>
+
+            {/* Dropdown */}
+            {isOpen && (
+              <div className="absolute z-50 mt-1 w-full max-h-60 overflow-y-auto bg-white border border-gray-200 rounded-lg shadow-lg">
+                {timeZones.map((tz, index) => (
+                  <div
+                    key={index}
+                    onClick={() => {
+                      setSelectedTZ(tz);
+                      setIsOpen(false);
+                    }}
+                    className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-sm"
+                  >
+                    {tz}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
 
             {/* Primary Currency */}
             <div>

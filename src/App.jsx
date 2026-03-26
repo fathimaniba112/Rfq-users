@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-
+import Footer from "./pages/Footer";
 //-----------------------------BUYER-- START----------------------------------------------------------------
 import BuyerSidebar from "./pages/Buyer/sidebar";
 import BuyerDashboard from "./pages/Buyer/Dashboard";
@@ -18,10 +18,10 @@ import BuyerRFXcreate from "./pages/Buyer/Rfx-create";
 import BuyerRFQView from "./pages/Buyer/RFX-view";
 import BuyerSupplierDirectories from "./pages/Buyer/supplierDirectories";
 import BuyerAddSupplierForm from "./pages/Buyer/AddSupplier";
-import BuyerCatalogPage from "./pages/Buyer/catlogLibrary";
-import BuyerAddItemForm from "./pages/Buyer/addCatalog";
-import BuyerBulkUploadPage from "./pages/Buyer/Bulk-catalog";
-import BuyerInactiveCatalogPage from "./pages/Buyer/inactive-catalog";
+// import BuyerCatalogPage from "./pages/Buyer/catlogLibrary";
+// import BuyerAddItemForm from "./pages/Buyer/addCatalog";
+// import BuyerBulkUploadPage from "./pages/Buyer/Bulk-catalog";
+// import BuyerInactiveCatalogPage from "./pages/Buyer/inactive-catalog";
 import BuyerCompanyProfile from "./pages/Buyer/company-information";
 import BuyerUserRolesPage from "./pages/Buyer/User-team";
 import BuyerAddUserRole from "./pages/Buyer/add-user";
@@ -44,6 +44,7 @@ import BuyerBulkUploadCostPage from "./pages/Buyer/Bulk-cost";
 import BuyerQuestionnaireResponse from "./pages/Buyer/Questionnier";
 import BuyerCreateNewQuestionnire from "./pages/Buyer/Create-Questionnier";
 import BuyerInternalApproval from "./pages/Buyer/Internal approval";
+import BuyerHome from "./pages/Buyer/BuyerHome";
 //--------------------------------BUYER END----------------------------------------------------------------
 
 //------------------------------------SELLER-- START----------------------------------------------------------------
@@ -63,17 +64,19 @@ import Others from "./pages/Seller/Others";
 import UserRoles from "./pages/Seller/UserRoles";
 import AddUserRole from "./pages/Seller/AddUser";
 import UserManagement from "./pages/Seller/Users";
-import CatalogPage from "./pages/Seller/catalog";
-import AddItemForm from "./pages/Seller/AddCatalog";
-import InactiveCatalog from "./pages/Seller/InactiveCatalog";
-import BulkUpload from "./pages/Seller/BulkUplooad";
+// import CatalogPage from "./pages/Seller/catalog";
+// import AddItemForm from "./pages/Seller/AddCatalog";
+// import InactiveCatalog from "./pages/Seller/InactiveCatalog";
+// import BulkUpload from "./pages/Seller/BulkUplooad";
 import CustomerTypesTable from "./pages/Seller/CustomerTypes";
 import CustomerDirectory from "./pages/Seller/CustomDirectory";
 import EmailSubscription from "./pages/Seller/EmailSubscription";
 import ReceivedQuestions from "./pages/Seller/ReceivedQuestions";
 import WalletHome from "./pages/Seller/Wallet-Home";
 import WalletTransactions from "./pages/Seller/WalletTransation";
-import SellerBanner from "./pages/Seller/SellerBanner";  
+import SellerBanner from "./pages/Seller/SellerBanner";
+import SellerHome from "./pages/Seller/Home";  
+import SellerChatInterface from "./pages/Seller/seller-message-page";
 //------------------------------------------------SELLER END------------------------------------------------------------
 
 
@@ -93,6 +96,7 @@ function BuyerLayout() {
          <Routes>
 
   <Route path="/" element={<Navigate to="dashboard" replace />} />
+  <Route path="home" element={<BuyerHome />} />
 
   <Route path="dashboard" element={<BuyerDashboard />} />
   <Route path="supplier-responses" element={<BuyerViewSupplierResponses />} />
@@ -112,10 +116,10 @@ function BuyerLayout() {
   <Route path="supplierDirectories" element={<BuyerSupplierDirectories />} />
   <Route path="add-supplier" element={<BuyerAddSupplierForm />} />
 
-  <Route path="catlog-Library" element={<BuyerCatalogPage />} />
+  {/* <Route path="catlog-Library" element={<BuyerCatalogPage />} />
   <Route path="add-catalog" element={<BuyerAddItemForm />} />
   <Route path="bulk-catalog" element={<BuyerBulkUploadPage />} />
-  <Route path="inactive-catalog" element={<BuyerInactiveCatalogPage />} />
+  <Route path="inactive-catalog" element={<BuyerInactiveCatalogPage />} /> */}
 
   <Route path="company-information" element={<BuyerCompanyProfile />} />
   <Route path="user-teams" element={<BuyerUserRolesPage />} />
@@ -146,6 +150,7 @@ function BuyerLayout() {
   <Route path="create-questionnaire" element={<BuyerCreateNewQuestionnire />} />
 
   <Route path="internal-approval" element={<BuyerInternalApproval />} />
+  <Route path="footer" element={<Footer />} />
 
 </Routes>
 
@@ -173,7 +178,11 @@ function SellerLayout() {
           
            <SellerBanner />
           <Routes>
-            <Route path="dashboard" element={<Dashboard />} />
+{/* Redirect /seller to /seller/home */}
+            <Route path="/" element={<Navigate to="home" replace />} />
+            
+            {/* The Home Component Connection */}
+            <Route path="home" element={<SellerHome />} />            <Route path="dashboard" element={<Dashboard />} />
             <Route path="rfx-bought" element={<RFXbought />} />
             <Route path="quotations" element={<Quotations />} />
             <Route path="/orders" element={<OrderReceived />} />
@@ -190,10 +199,10 @@ function SellerLayout() {
 <Route path="users/add-roles" element={<AddUserRole />} />
 <Route path="users/list" element={<UserManagement />} />
 
-<Route path="catalog" element={<CatalogPage />} />
+{/* <Route path="catalog" element={<CatalogPage />} />
 <Route path="add-catalog" element={<AddItemForm />} />
 <Route path="inactive-catalog" element={<InactiveCatalog />} />
-<Route path="bulk-catalog" element={<BulkUpload />} />
+<Route path="bulk-catalog" element={<BulkUpload />} /> */}
 
 <Route path="customer-types" element={<CustomerTypesTable />} />
 <Route path="customer-directory" element={<CustomerDirectory />} />
@@ -202,6 +211,7 @@ function SellerLayout() {
 
 <Route path="wallet-home" element={<WalletHome />} />
 <Route path="wallet-transactions" element={<WalletTransactions />} />
+<Route path="message-page" element={<SellerChatInterface />} />
           </Routes>
 
         </main>

@@ -29,7 +29,7 @@ const UserRolesPage = () => {
             </p>
           </div>
           <button 
-            onClick={() => navigate("/add-user")}
+            onClick={() => navigate("/seller/users/add-roles")}
             className="flex items-center justify-center gap-2 bg-[#43624A] hover:bg-[#2A2A2A] text-white px-6 py-2.5 rounded-lg transition-colors duration-200 font-medium whitespace-nowrap"
           >
             <Plus size={18} />

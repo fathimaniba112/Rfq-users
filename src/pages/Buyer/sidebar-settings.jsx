@@ -85,7 +85,7 @@ export default function BuyerSettingsSidebar() {
           navigate={navigate}
           children={[
           { label: "Cost Centers", path: "/buyer/cost-centers" },
-{ label: "Catalog", path: "/buyer/catlog-Library" },
+// { label: "Catalog", path: "/buyer/catlog-Library" },
 { label: "Supplier Types", path: "/buyer/supplier-types" },
 { label: "Supplier Directory", path: "/buyer/supplierDirectories" },
 { label: "Email Subscription", path: "/buyer/email-subscription" },

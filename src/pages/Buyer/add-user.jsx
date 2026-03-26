@@ -1,11 +1,15 @@
 
 import React, { useState } from 'react';
-import { 
-  ChevronDown, ChevronRight, FileText, ArrowLeft 
-} from 'lucide-react';
+import { ChevronDown, ChevronRight, FileText, ArrowLeft } from 'lucide-react';
 import BuyerSettingsSidebar from "./sidebar-settings";
+import API from "../../api";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const BuyerAddUserRole = () => {
+const navigate = useNavigate();
 
   const colors = {
     background: "#FDFCF9"
@@ -18,7 +22,63 @@ const BuyerAddUserRole = () => {
     setOpenSections(prev => ({ ...prev, [id]: !prev[id] }));
   };
 
-  // --- DATA ---
+  //Connect Frontend :In your Save button:
+
+const handleSave = async () => {
+  try {
+    const payload = {
+      name: roleName,
+      description: roleDescription,
+      permissions: selectedPermissions,
+      fieldPermissions: selectedFieldPermissions
+    };
+
+    await API.post("/roles/create", payload);
+
+    toast.success("Role added successfully ✅");
+setTimeout(() => {
+  navigate("/buyer/user-teams");
+}, 1500);
+
+    // optional: clear form
+    setRoleName("");
+    setRoleDescription("");
+
+  } catch (error) {
+    console.error(error);
+    toast.error("Failed to add role ❌");
+  }
+};
+
+const [selectedPermissions, setSelectedPermissions] = useState([]);
+const [selectedFieldPermissions, setSelectedFieldPermissions] = useState([]);
+
+//------------------When checkbox clicked-------------------------------------------------------------------
+
+const handlePermissionChange = (module, action, checked) => {
+  setSelectedPermissions(prev => {
+    let updated = [...prev];
+
+    const index = updated.findIndex(p => p.module === module);
+
+    if (index === -1) {
+      updated.push({ module, actions: [action] });
+    } else {
+      if (checked) {
+        updated[index].actions.push(action);
+      } else {
+        updated[index].actions =
+          updated[index].actions.filter(a => a !== action);
+      }
+    }
+
+    return updated;
+  });
+};
+
+const [roleName, setRoleName] = useState("");
+const [roleDescription, setRoleDescription] = useState("");
+   // --- DATA ---
   const permissionsData = [
     { id: 'pr', name: 'Purchase Request', count: '0 / 3', subs: ['Manage', 'View', 'Approve'] },
     { id: 'rfx', name: 'RFX', count: '0 / 3', subs: ['Manage', 'View', 'Approve'] },
@@ -46,10 +106,34 @@ const BuyerAddUserRole = () => {
     { id: 'fp2', name: 'Bid Type', page: 'Request for Quotation', count: '0 / 1', subs: ['Manage'] },
     { id: 'fp3', name: 'TCV_Permission', page: 'Users & Teams', count: '0 / 2', subs: ['Manage', 'View'] },
   ];
+//-------------------------Field Permissions Logic---------------------------------------------
+ 
+const handleFieldPermissionChange = (field, page, action, checked) => {
+  setSelectedFieldPermissions(prev => {
+    let updated = [...prev];
 
+    const index = updated.findIndex(
+      f => f.field === field && f.page === page
+    );
+
+    if (index === -1) {
+      updated.push({ field, page, actions: [action] });
+    } else {
+      if (checked) {
+        updated[index].actions.push(action);
+      } else {
+        updated[index].actions =
+          updated[index].actions.filter(a => a !== action);
+      }
+    }
+
+    return updated;
+  });
+};
   return (
+    
     <div className="flex h-screen overflow-hidden" style={{ backgroundColor: colors.background }}>
-      
+      <ToastContainer position="top-right" autoClose={3000} />
       <BuyerSettingsSidebar />
 
       <div className="min-h-screen bg-[#FDFCF9] p-4 md:p-8 font-sans text-[#2A2A2A] w-full overflow-y-auto">
@@ -86,18 +170,24 @@ const BuyerAddUserRole = () => {
                   <label className="block text-sm font-semibold mb-2">User Role</label>
                   <input
                     type="text"
+                      value={roleName}
+                      onChange={(e) => setRoleName(e.target.value)}
                     className="w-full p-2.5 border border-gray-200 rounded-lg focus:ring-2 focus:ring-[#43624A]/20 outline-none transition-all"
                     placeholder="e.g. Finance Manager"
                   />
+                  
                 </div>
 
                 <div>
                   <label className="block text-sm font-semibold mb-2">Role Description</label>
                   <textarea
                     rows="3"
+                     value={roleDescription}
+                     onChange={(e) => setRoleDescription(e.target.value)}
                     className="w-full p-2.5 border border-gray-200 rounded-lg focus:ring-2 focus:ring-[#43624A]/20 outline-none transition-all"
                     placeholder="Briefly describe this role's purpose"
                   />
+                
                 </div>
 
               </div>
@@ -108,7 +198,8 @@ const BuyerAddUserRole = () => {
                 <h2 className="text-[#2563EB] font-bold text-lg mb-4">Permissions</h2>
 
                 <div className="flex items-center space-x-3 mb-6">
-                  <input type="checkbox" className="w-4 h-4 rounded accent-[#43624A]" id="select-all" />
+                  <input type="checkbox"   className="w-4 h-4 rounded accent-[#43624A]" id="select-all" />
+  
                   <label htmlFor="select-all" className="text-slate-700 font-medium cursor-pointer">
                     Select All Permissions
                   </label>
@@ -116,11 +207,12 @@ const BuyerAddUserRole = () => {
 
                 <div className="space-y-3">
                   {permissionsData.map((item) => (
-                    <PermissionRow
+                   <PermissionRow
                       key={item.id}
                       item={item}
                       isOpen={openSections[item.id]}
                       onToggle={() => toggleSection(item.id)}
+                      handlePermissionChange={handlePermissionChange}
                     />
                   ))}
                 </div>
@@ -135,7 +227,8 @@ const BuyerAddUserRole = () => {
                 </h2>
 
                 <div className="flex items-center space-x-3 mb-6">
-                  <input type="checkbox" className="w-4 h-4 rounded accent-[#43624A]" id="select-all-fields" />
+                  <input type="checkbox"  onChange={(e) =>  handleFieldPermissionChange(  item.name,  item.page,   sub,     e.target.checked )}                className="w-4 h-4 rounded accent-[#43624A]" id="select-all-fields" />
+  
                   <label htmlFor="select-all-fields" className="text-slate-700 font-medium cursor-pointer">
                     Select All Permissions
                   </label>
@@ -188,7 +281,18 @@ const BuyerAddUserRole = () => {
 
                             <div key={idx} className="flex items-center space-x-3 py-2">
 
-                              <input type="checkbox" className="w-4 h-4 rounded accent-[#43624A]" />
+                              <input
+  type="checkbox"
+  className="w-4 h-4 rounded accent-[#43624A]"
+  onChange={(e) =>
+    handleFieldPermissionChange(
+      item.name,
+      item.page,
+      sub,
+      e.target.checked
+    )
+  }
+/>
                               <span className="text-sm text-slate-600">{sub}</span>
 
                             </div>
@@ -214,9 +318,10 @@ const BuyerAddUserRole = () => {
                   Cancel
                 </button>
 
-                <button className="px-10 py-2 bg-[#2563EB] text-white rounded-lg hover:bg-blue-700 font-medium shadow-sm transition-all">
+                <button  onClick={handleSave} className="px-10 py-2 bg-[#2563EB] text-white rounded-lg hover:bg-blue-700 font-medium shadow-sm transition-all">
                   Save
                 </button>
+           
 
               </div>
 
@@ -232,7 +337,7 @@ const BuyerAddUserRole = () => {
 
 
 // --- PERMISSION ROW COMPONENT ---
-const PermissionRow = ({ item, isOpen, onToggle }) => (
+const PermissionRow = ({ item, isOpen, onToggle, handlePermissionChange }) => (
 
   <div className="border border-gray-200 rounded-lg overflow-hidden">
 
@@ -240,51 +345,47 @@ const PermissionRow = ({ item, isOpen, onToggle }) => (
       className="flex items-center justify-between p-3 bg-white cursor-pointer hover:bg-gray-50"
       onClick={onToggle}
     >
-
       <div className="flex items-center space-x-4">
 
         <div className="text-gray-400">
           {isOpen ? <ChevronDown size={18} /> : <ChevronRight size={18} />}
         </div>
 
-        <input
-          type="checkbox"
-          className="w-4 h-4 rounded border-gray-300 accent-[#43624A]"
-          onClick={(e) => e.stopPropagation()}
-        />
-
         <div className="flex items-center space-x-2">
           <FileText size={16} className="text-gray-400" />
-          <span className="text-sm font-semibold text-slate-700">{item.name}</span>
+          <span className="text-sm font-semibold text-slate-700">
+            {item.name}
+          </span>
         </div>
 
       </div>
 
       <span className="text-xs font-mono text-gray-400">{item.count}</span>
-
     </div>
 
     {isOpen && (
-
       <div className="bg-gray-50 border-t border-gray-100 px-12 py-2">
 
         {item.subs.map((sub, idx) => (
-
           <div key={idx} className="flex items-center space-x-3 py-2">
 
-            <input type="checkbox" className="w-4 h-4 rounded accent-[#43624A]" />
+            <input
+              type="checkbox"
+              className="w-4 h-4 rounded accent-[#43624A]"
+              onChange={(e) =>
+                handlePermissionChange(item.name, sub, e.target.checked)
+              }
+            />
+
             <span className="text-sm text-slate-600">{sub}</span>
 
           </div>
-
         ))}
 
       </div>
-
     )}
 
   </div>
-
 );
 
 export default BuyerAddUserRole;

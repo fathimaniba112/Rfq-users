@@ -30,7 +30,11 @@ import logo from "../../assets/LOGO-2.png";
 const BuyerHeader = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  
   const isBuyer = location.pathname.startsWith("/buyer");
+  const isSeller = location.pathname.startsWith("/seller");
+const isHome = location.pathname === "/buyer/home";
+
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState(null);
   const dropdownRef = useRef(null);
@@ -104,7 +108,7 @@ const BuyerHeader = () => {
       label: 'Directory',
       items: [
         { icon: ShieldCheck, label: 'Supplier Directory', path: '/buyer/supplierDirectories' },
-        { icon: SlidersHorizontal, label: 'Catalog Library', path: '/buyer/catlog-Library' },
+        // { icon: SlidersHorizontal, label: 'Catalog Library', path: '/buyer/catlog-Library' },
       ]
     },
     {
@@ -113,7 +117,7 @@ const BuyerHeader = () => {
       label: 'Settings',
       items: [
         { icon: ToggleRight, label: 'Account settings', path: '/buyer/company-information' },
-        { icon: LayoutGrid, label: 'Master Data', path: '/buyer/catlog-Library' },
+        // { icon: LayoutGrid, label: 'Master Data', path: '/buyer/catlog-Library' },
         { icon: Users, label: 'User & Teams', path: '/buyer/user-teams' },
       ]
     },
@@ -182,23 +186,7 @@ const BuyerHeader = () => {
   // Render desktop navigation icons
   const renderDesktopNav = () => (
     <div className="hidden lg:flex items-center gap-4 xl:gap-6 text-gray-500">
-      <button
-        onClick={toggleMode}
-        title={isBuyer ? "Switch to Seller Console" : "Switch to Buyer Console"}
-        className="hover:text-gray-800"
-      >
-        <UserCog2 size={20} strokeWidth={1.5} />
-      </button>
-      {/* Home Button */}
-  <button
-    onClick={() => {
-      navigate("/");
-      setIsMobileMenuOpen(false);
-    }}
-   >
-    <Home size={20} strokeWidth={1.5} />
-    
-  </button>
+ 
       {navItems.map((item) => (
         <div key={item.name} className="group relative flex items-center">
           <button className="group-hover:text-gray-800 py-4">
@@ -218,17 +206,7 @@ const BuyerHeader = () => {
   // Render mobile/tablet navigation
   const renderMobileNav = () => (
     <div className="flex flex-col h-full p-4">
-      {/* Search in mobile */}
-      <div className="relative w-full mb-4">
-        <span className="absolute inset-y-0 left-3 flex items-center text-gray-400">
-          <Search size={18} strokeWidth={1.5} />
-        </span>
-        <input
-          type="text"
-          placeholder="Search"
-          className="w-full rounded-lg border border-gray-300 bg-white py-2.5 pl-10 pr-3 text-sm focus:outline-none focus:ring-1 focus:ring-[#43624A]"
-        />
-      </div>
+      
 
       {/* Company badge in mobile */}
       <div className="flex items-center justify-center rounded-lg border border-gray-200 bg-[#F3F4F6] px-3 py-2 text-xs font-medium uppercase tracking-wide text-gray-700 mb-4">
@@ -239,23 +217,11 @@ const BuyerHeader = () => {
       <div className="flex-1 overflow-y-auto space-y-2">
         
         {/* ADDED: Switch Mode Button for Mobile Drawer */}
-        <button
-          onClick={() => {
-            toggleMode();
-            setIsMobileMenuOpen(false);
-          }}
-          className="flex w-full items-center justify-between rounded-lg border border-[#43624A]/20 bg-green-50 px-4 py-3 text-[#43624A] hover:bg-green-100 transition-colors mb-4"
-        >
-          <div className="flex items-center gap-3">
-            <UserCog2 size={20} strokeWidth={1.5} />
-            <span className="font-bold text-sm">Switch to {isBuyer ? "Seller" : "Buyer"} Console</span>
-          </div>
-          <ChevronLeft size={14} className="rotate-180 opacity-50" />
-        </button>
+        
 {/* Home Button */}
   <button
     onClick={() => {
-      navigate("/");
+      navigate("/buyer/home");
       setIsMobileMenuOpen(false);
     }}
     className="flex w-full items-center gap-3 rounded-lg border border-gray-200 bg-white px-4 py-3 text-gray-700 hover:bg-gray-50"
@@ -343,38 +309,49 @@ const BuyerHeader = () => {
 
       {/* 2. Search Section */}
       <div className="hidden md:flex flex-1 items-center gap-3 ml-4">
-        <div className="relative w-48 lg:w-64">
-          <span className="absolute inset-y-0 left-3 flex items-center text-gray-400">
-            <Search size={18} strokeWidth={1.5} />
-          </span>
-          <input
-            type="text"
-            placeholder="Search"
-            className="w-full rounded-lg border border-gray-300 bg-white py-1.5 pl-10 pr-3 text-sm focus:outline-none focus:ring-1 focus:ring-[#43624A]"
-          />
-        </div>
+        
         <div className="hidden lg:flex items-center rounded-lg border border-gray-200 bg-[#F3F4F6] px-3 py-1.5 text-xs font-medium uppercase tracking-wide text-gray-700">
           YATEEM AIRCONDITIONING C...
         </div>
       </div>
 
       <div className="flex-1"></div>
+<div className="hidden lg:flex items-center gap-2 mr-4">
 
+  {/* Buyer */}
+  <button
+    onClick={() => navigate("/buyer/dashboard")}
+    className={`px-3 py-1 rounded-md text-xs font-semibold transition-all
+      ${isBuyer ? "bg-[#43624A] text-white animate-pulse" : "bg-gray-200 text-gray-700 hover:bg-gray-300"}`}
+  >
+    Buyer
+  </button>
+
+  {/* Seller */}
+  <button
+    onClick={() => navigate("/seller/dashboard")}
+    className={`px-3 py-1 rounded-md text-xs font-semibold transition-all
+      ${isSeller ? "bg-[#43624A] text-white animate-pulse" : "bg-gray-200 text-gray-700 hover:bg-gray-300"}`}
+  >
+    Seller
+  </button>
+
+  {/* Home */}
+  <button
+    onClick={() => navigate("/buyer/home")}
+    className={`px-3 py-1 rounded-md text-xs font-semibold transition-all
+      ${isHome ? "bg-[#43624A] text-white animate-pulse" : "bg-gray-200 text-gray-700 hover:bg-gray-300"}`}
+  >
+    Home
+  </button>
+
+</div>
       {/* 3. Desktop Navigation Icons Section */}
       {renderDesktopNav()}
 
-      {/* Mobile menu button */}
-      <button 
-        onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-        className="lg:hidden p-2 hover:bg-gray-100 rounded-lg ml-4"
-        aria-label="Toggle menu"
-      >
-        {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-      </button>
-
+     
       {/* 4. Profile Section with HOVER menu */}
-      <div className="hidden lg:flex group relative items-center border-l border-gray-300 pl-6 h-full cursor-pointer">
-        <div className="mr-3 text-right">
+<div className="hidden lg:flex group relative items-center border-l border-gray-300 pl-6 ml-4 h-full cursor-pointer">        <div className="mr-3 text-right">
           <div className="text-sm font-bold leading-tight text-gray-900 uppercase">ROSITA EVORA</div>
           <div className="text-[10px] uppercase text-gray-500">Admin <span className="mx-1">|</span> 1GB of 5GB used</div>
         </div>

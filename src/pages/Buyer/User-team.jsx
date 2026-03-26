@@ -1,17 +1,28 @@
-import React from 'react';
+import React, { useEffect, useState } from "react";
 import { Eye, Copy, Trash2, Search, Plus } from 'lucide-react';
 import { useNavigate } from "react-router-dom";
 import BuyerSettingsSidebar from "./sidebar-settings";
+import API from "../../api";
 
 const BuyerUserRolesPage = () => {
       const navigate = useNavigate();   // <-- add this
 
-  const roles = [
-    { id: 1, name: 'ADMIN', description: '', system: true },
-    { id: 2, name: 'Purchaser', description: '', system: false },
-    { id: 3, name: 'STORE STOCK', description: '', system: false },
-    { id: 4, name: 'Purchase H', description: '', system: false },
-  ];
+  const [roles, setRoles] = useState([]);
+
+//----------------Fetch data from backend----------------------------------------------------------
+  
+useEffect(() => {
+  fetchRoles();
+}, []);
+
+const fetchRoles = async () => {
+  try {
+    const res = await API.get("/roles/all");
+    setRoles(res.data);
+  } catch (error) {
+    console.error("Error fetching roles:", error);
+  }
+};
 
   return (
    <div className="flex min-h-screen bg-[#F5F2EA]">

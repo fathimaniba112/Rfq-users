@@ -3,6 +3,17 @@ import { Camera, Upload, Globe, Phone, Mail, Search, X, Calendar, Linkedin, Twit
 import BuyerSettingsSidebar from "./sidebar-settings";
 
 const BuyerCompanyProfile = () => {
+  const [logo, setLogo] = useState(null);
+const [cover, setCover] = useState(null);
+const handleLogoUpload = (e) => {
+  const file = e.target.files[0];
+  setLogo(file);
+};
+
+const handleCoverUpload = (e) => {
+  const file = e.target.files[0];
+  setCover(file);
+};
   const [formData, setFormData] = useState({
     legalName: 'YATEEM AIRCONDITIONING COMPANY W.L.L',
     address: 'SHK ISA AVENUE PO BOX 60',
@@ -19,6 +30,63 @@ const BuyerCompanyProfile = () => {
     about: 'yateem airconditioning was established 75 years ago and is a Premier Airconditioning supplies and contracting company.',
     socials: { linkedin: '', twitter: '', facebook: '', instagram: '', youtube: '' }
   });
+const handleChange = (e) => {
+  const { name, value } = e.target;
+  setFormData({
+    ...formData,
+    [name]: value,
+  });
+};
+const handleSubmit = async () => {
+  try {
+    const form = new FormData();
+
+    // append text fields
+Object.keys(formData).forEach((key) => {
+  if (!key) return; // ✅ skip empty keys
+
+  const value = formData[key];
+
+  if (value === undefined || value === null) return; // ✅ skip invalid
+
+  if (key === "industry" || key === "socials") {
+    form.append(key, JSON.stringify(value));
+  } else {
+    form.append(key, value);
+  }
+});
+
+    // append files
+    if (logo instanceof File) {
+      form.append("logo", logo);
+    }
+
+    if (cover instanceof File) {
+      form.append("cover", cover);
+    }
+
+    // ✅ 👉 ADD THIS DEBUG BLOCK HERE
+    console.log("===== FORM DATA =====");
+    for (let pair of form.entries()) {
+      console.log(pair[0], pair[1]);
+    }
+    console.log("=====================");
+
+    // 👉 THEN FETCH
+    const response = await fetch("http://localhost:5000/api/company", {
+      method: "POST",
+      body: form,
+    });
+
+    const data = await response.json();
+    console.log(data);
+
+    alert("Saved successfully!");
+  } catch (error) {
+    console.error(error);
+    alert("Error saving data");
+  }
+};
 
   return (
      <div className="flex min-h-screen bg-[#F5F2EA]">
@@ -41,11 +109,13 @@ const BuyerCompanyProfile = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-5">
               <div className="md:col-span-2">
                 <label className="block text-sm font-medium text-gray-600 mb-1.5">Company Legal Name</label>
-                <input type="text" readOnly value={formData.legalName} className="w-full p-3 bg-gray-50 border border-gray-200 rounded-lg text-gray-800 cursor-not-allowed" />
+                <input type="text"    onChange={handleChange}
+   className="w-full p-3 bg-gray-50 border border-gray-200 rounded-lg text-gray-800 cursor-not-allowed" />
               </div>
               <div className="md:col-span-2">
                 <label className="block text-sm font-medium text-gray-600 mb-1.5">Registered Address</label>
-                <input type="text" value={formData.address} className="w-full p-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-[#7A9C83] outline-none" />
+                <input type="text"   onChange={handleChange}
+ className="w-full p-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-[#7A9C83] outline-none" />
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-600 mb-1.5">Country</label>
@@ -55,7 +125,8 @@ const BuyerCompanyProfile = () => {
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-600 mb-1.5">Company Phone</label>
-                <input type="text" value={formData.phone} className="w-full p-3 border border-gray-200 rounded-lg" />
+                <input type="text"   onChange={handleChange}
+  className="w-full p-3 border border-gray-200 rounded-lg" />
               </div>
               <div className="md:col-span-2">
                 <label className="block text-sm font-medium text-gray-600 mb-1.5">Industry Sector</label>
@@ -69,18 +140,20 @@ const BuyerCompanyProfile = () => {
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-600 mb-1.5">VAT/GST</label>
-                <input type="text" value={formData.vat} className="w-full p-3 border border-gray-200 rounded-lg" />
+                <input type="text"   onChange={handleChange}
+ className="w-full p-3 border border-gray-200 rounded-lg" />
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-600 mb-1.5">Incorporated On</label>
                 <div className="relative">
-                  <input type="text" placeholder="dd/mm/yyyy" className="w-full p-3 border border-gray-200 rounded-lg" />
+                  <input type="text"   onChange={handleChange}
+ placeholder="dd/mm/yyyy" className="w-full p-3 border border-gray-200 rounded-lg" />
                   <Calendar size={18} className="absolute right-3 top-3.5 text-gray-400" />
                 </div>
               </div>
               <div className="md:col-span-2">
                 <label className="block text-sm font-medium text-gray-600 mb-1.5">About Company</label>
-                <textarea rows="3" value={formData.about} className="w-full p-3 border border-gray-200 rounded-lg resize-none" />
+                <textarea rows="3"  className="w-full p-3 border border-gray-200 rounded-lg resize-none" />
               </div>
 
               {/* Social Media Links Sub-section */}
@@ -98,7 +171,8 @@ const BuyerCompanyProfile = () => {
                       <div className="bg-gray-50 px-4 flex items-center justify-center border-r border-gray-200 text-gray-500">
                         {social.icon}
                       </div>
-                      <input type="text" className="w-full p-2.5 outline-none focus:bg-gray-50 transition" placeholder={`${social.label} link`} />
+                      <input type="text"   onChange={handleChange}
+ className="w-full p-2.5 outline-none focus:bg-gray-50 transition" placeholder={`${social.label} link`} />
                     </div>
                   ))}
                 </div>
@@ -107,11 +181,31 @@ const BuyerCompanyProfile = () => {
               {/* Requirement Checkboxes */}
               <div className="md:col-span-2 space-y-3 mt-4">
                 <label className="flex items-center gap-3 cursor-pointer group">
-                  <input type="checkbox" className="w-5 h-5 rounded border-gray-300 text-[#43624A] focus:ring-[#7A9C83]" />
+                <input
+  type="checkbox"
+  name="ndaRequired"
+  onChange={(e) =>
+    setFormData({
+      ...formData,
+      ndaRequired: e.target.checked,
+    })
+  }
+
+ className="w-5 h-5 rounded border-gray-300 text-[#43624A] focus:ring-[#7A9C83]" />
                   <span className="text-sm font-medium text-gray-700 group-hover:text-black transition">Is NDA Required?</span>
                 </label>
                 <label className="flex items-center gap-3 cursor-pointer group">
-                  <input type="checkbox" className="w-5 h-5 rounded border-gray-300 text-[#43624A] focus:ring-[#7A9C83]" />
+              <input
+  type="checkbox"
+  name="vendorFormRequired"    
+  onChange={(e) =>
+    setFormData({
+      ...formData,
+      vendorFormRequired: e.target.checked,
+    })
+  }
+
+ className="w-5 h-5 rounded border-gray-300 text-[#43624A] focus:ring-[#7A9C83]" />
                   <span className="text-sm font-medium text-gray-700 group-hover:text-black transition">Is Vendor Onboarding Form Required?</span>
                 </label>
               </div>
@@ -129,8 +223,13 @@ const BuyerCompanyProfile = () => {
             <label className="block text-sm font-medium text-gray-600 mb-3">Company Logo</label>
             <div className="w-full max-w-sm aspect-video border-2 border-dashed border-gray-200 rounded-xl flex items-center justify-center relative bg-gray-50 group hover:border-[#7A9C83] transition">
               <div className="text-center p-6">
-                <img src="/api/placeholder/200/80" alt="Logo" className="mx-auto mb-4 grayscale opacity-50" />
-                <p className="text-xs text-gray-400 font-medium">Click or drag to upload logo</p>
+                <input type="file"   name="logo"  accept="image/*" onChange={handleLogoUpload}   
+ className="absolute inset-0 opacity-0 cursor-pointer z-10" />
+{logo ? (
+  <img src={URL.createObjectURL(logo)} className="mx-auto mb-4" />
+) : (
+  <img src="/api/placeholder/200/80" className="mx-auto mb-4 grayscale opacity-50" />
+)}                <p className="text-xs text-gray-400 font-medium">Click or drag to upload logo</p>
               </div>
               <button className="absolute top-3 right-3 bg-red-500 text-white rounded-full p-1 shadow-lg hover:bg-red-600 transition">
                 <X size={16} />
@@ -140,30 +239,63 @@ const BuyerCompanyProfile = () => {
         </div>
 
         {/* SECTION 3: Profile Background */}
-        <div className="flex flex-col md:flex-row">
-          <div className="md:w-1/3 p-8 bg-gray-50/30">
-            <h2 className="text-2xl font-bold mb-4">Profile background</h2>
-            <p className="text-sm text-gray-500 leading-relaxed">
-              Add a cover image that represents your organization. Recommended dimensions: 1200 x 400 pixels.
-            </p>
-          </div>
-          <div className="md:w-2/3 p-8">
-            <label className="block text-sm font-medium text-gray-600 mb-3">Cover Image</label>
-            <div className="w-full h-48 border-2 border-dashed border-gray-200 rounded-xl bg-gray-50 flex flex-col items-center justify-center group hover:bg-[#F5F2EA]/50 transition-colors cursor-pointer">
-              <Upload className="text-gray-300 mb-2 group-hover:text-[#7A9C83] transition" size={40} />
-              <p className="text-sm font-semibold text-gray-600">Upload Cover Image</p>
-            </div>
-          </div>
-        </div>
+{/* SECTION 3: Profile Background */}
+<div className="flex flex-col md:flex-row">
+  <div className="md:w-1/3 p-8 bg-gray-50/30">
+    <h2 className="text-2xl font-bold mb-4">Profile background</h2>
+    <p className="text-sm text-gray-500 leading-relaxed">
+      Add a cover image that represents your organization. Recommended dimensions: 1200 x 400 pixels.
+    </p>
+  </div>
+
+  <div className="md:w-2/3 p-8">
+    <label className="block text-sm font-medium text-gray-600 mb-3">
+      Cover Image
+    </label>
+
+    {/* 🔥 IMPORTANT: added relative */}
+    <div className="relative w-full h-48 border-2 border-dashed border-gray-200 rounded-xl bg-gray-50 flex flex-col items-center justify-center group hover:bg-[#F5F2EA]/50 transition-colors cursor-pointer">
+
+      {/* 🔥 FILE INPUT (THIS WAS MISSING) */}
+      <input
+        type="file"  name="cover"  
+        accept="image/*"
+        onChange={handleCoverUpload}
+        className="absolute inset-0 opacity-0 cursor-pointer z-10"
+      />
+
+      {/* UI (UNCHANGED) */}
+      {cover ? (
+        <img
+          src={URL.createObjectURL(cover)}
+          alt="Cover"
+          className="w-full h-full object-cover rounded-xl"
+        />
+      ) : (
+        <>
+          <Upload
+            className="text-gray-300 mb-2 group-hover:text-[#7A9C83] transition"
+            size={40}
+          />
+          <p className="text-sm font-semibold text-gray-600">
+            Upload Cover Image
+          </p>
+        </>
+      )}
+    </div>
+  </div>
+</div>
 
         {/* STICKY FOOTER */}
         <div className="px-8 py-6 bg-gray-50 border-t border-gray-100 flex flex-col sm:flex-row justify-end gap-3 sticky bottom-0 z-10">
           <button className="px-6 py-2.5 rounded-lg border border-gray-300 text-gray-600 font-semibold hover:bg-white transition">
             Cancel
           </button>
-          <button className="px-6 py-2.5 rounded-lg bg-[#7A9C83] text-white font-semibold hover:bg-[#43624A] transition">
-            Save
-          </button>
+          <button  onClick={handleSubmit} className="px-6 py-2.5 rounded-lg bg-[#7A9C83] text-white font-semibold hover:bg-[#43624A] transition">
+          
+  Save
+</button>
+          
           <button className="px-6 py-2.5 rounded-lg bg-[#2A2A2A] text-white font-semibold hover:bg-black transition shadow-md">
             Save and View My Profile
           </button>

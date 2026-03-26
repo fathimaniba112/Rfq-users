@@ -51,11 +51,11 @@ const SettingsSidebar = () => {
       name: 'Master Data Management',
       icon: <Database size={20} />,
       subItems: [
-        { name: 'Catalog', path: '/seller/catalog' },
-        { name: 'Customer Types', path: '/seller/customer-types' },
+        // { name: 'Catalog', path: '/seller/catalog' },
+        // { name: 'Customer Types', path: '/seller/customer-types' },
         { name: 'Customer Directory', path: '/seller/customer-directory' },
         { name: 'Email Subscription', path: '/seller/email-subscriptions' },
-        { name: 'Received Questionnaires', path: '/seller/received-questions' }
+        // { name: 'Received Questionnaires', path: '/seller/received-questions' }
       ]
     },
     {

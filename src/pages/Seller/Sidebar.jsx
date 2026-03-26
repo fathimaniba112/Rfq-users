@@ -7,7 +7,7 @@ const Sidebar = () => {
     { icon: <FileText size={22} />, label: "RFX Bought", path: "/seller/rfx-bought" },
     { icon: <ClipboardCheck size={22} />, label: "Quotations", path: "/seller/quotations" },
     { icon: <ShoppingCart size={22} />, label: "Orders", path: "/seller/orders" },
-    { icon: <MessageSquare size={22} />, label: "Messages", path: "/seller/messages" },
+    { icon: <MessageSquare size={22} />, label: "Messages", path: "/seller/message-page" },
   ];
 
   return (
