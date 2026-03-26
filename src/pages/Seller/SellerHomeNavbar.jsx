@@ -13,8 +13,9 @@ const SellerHomeNavbar = () => {
   const location = useLocation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   
-  const isBuyer = location.pathname.startsWith("/buyer");
-
+const isBuyer = location.pathname.startsWith("/buyer");
+const isSeller = location.pathname.startsWith("/seller");
+const isHome = location.pathname === "/seller/home" || location.pathname === "/buyer/home";
   const toggleMode = () => {
     if (isBuyer) {
       navigate("/seller/dashboard");
@@ -64,14 +65,39 @@ const SellerHomeNavbar = () => {
           
           {/* Desktop-only Icon Group (Hidden on mobile) */}
           <div className="hidden md:flex items-center gap-2 md:gap-4 pr-3 border-r border-gray-200 h-10">
-            <button onClick={toggleMode} className="hover:text-gray-800">
-              <UserCog2 size={20} strokeWidth={1.5} />
-            </button>
-            <Home 
-              size={20} 
-              className="cursor-pointer hover:text-[#43624A] transition-colors" 
-              onClick={() => navigate("/seller/home")} 
-            />
+           <div className="flex items-center gap-2">
+
+  {/* Buyer */}
+  <button
+    onClick={() => navigate("/buyer/dashboard")}
+    className={`px-4 py-1.5 rounded-md text-sm font-semibold transition-all
+      ${isBuyer ? "bg-[#43624A] text-white animate-pulse" : "bg-gray-200 text-gray-700 hover:bg-gray-300"}`}
+  >
+    Buyer
+  </button>
+
+  {/* Home */}
+  <button
+    onClick={() => {
+      if (isSeller) navigate("/seller/home");
+      else navigate("/buyer/home");
+    }}
+    className={`px-4 py-1.5 rounded-md text-sm font-semibold transition-all
+      ${isHome ? "bg-[#43624A] text-white animate-pulse" : "bg-gray-200 text-gray-700 hover:bg-gray-300"}`}
+  >
+    Home
+  </button>
+
+  {/* Seller */}
+  <button
+    onClick={() => navigate("/seller/dashboard")}
+    className={`px-4 py-1.5 rounded-md text-sm font-semibold transition-all
+      ${isSeller ? "bg-[#43624A] text-white animate-pulse" : "bg-gray-200 text-gray-700 hover:bg-gray-300"}`}
+  >
+    Seller
+  </button>
+
+</div>
             {/* Quote Dropdown */}
             <div className="relative h-full flex items-center group">
               <ExternalLink size={20} className="cursor-pointer group-hover:text-[#43624A]" />

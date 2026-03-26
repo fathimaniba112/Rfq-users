@@ -327,14 +327,7 @@ const isHome = location.pathname === "/buyer/home";
     Buyer
   </button>
 
-  {/* Seller */}
-  <button
-    onClick={() => navigate("/seller/dashboard")}
-    className={`px-3 py-1 rounded-md text-xs font-semibold transition-all
-      ${isSeller ? "bg-[#43624A] text-white animate-pulse" : "bg-gray-200 text-gray-700 hover:bg-gray-300"}`}
-  >
-    Seller
-  </button>
+
 
   {/* Home */}
   <button
@@ -344,7 +337,14 @@ const isHome = location.pathname === "/buyer/home";
   >
     Home
   </button>
-
+  {/* Seller */}
+  <button
+    onClick={() => navigate("/seller/dashboard")}
+    className={`px-3 py-1 rounded-md text-xs font-semibold transition-all
+      ${isSeller ? "bg-[#43624A] text-white animate-pulse" : "bg-gray-200 text-gray-700 hover:bg-gray-300"}`}
+  >
+    Seller
+  </button>
 </div>
       {/* 3. Desktop Navigation Icons Section */}
       {renderDesktopNav()}
